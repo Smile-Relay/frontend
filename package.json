@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@motionone/vue": "^10.16.4",
     "@nuxt/content": "^3.8.2",
     "@nuxt/eslint": "^1.11.0",
     "@nuxt/hints": "^1.0.0-alpha.3",
@@ -17,13 +18,25 @@
     "@nuxt/scripts": "^0.13.0",
     "@nuxt/test-utils": "^3.20.1",
     "@nuxt/ui": "^4.2.1",
+    "@oku-ui/motion": "^0.4.3",
+    "@radix-ui/colors": "^3.0.0",
+    "@tailwindcss/vite": "^4.1.17",
     "@unhead/vue": "^2.0.19",
+    "@vueuse/motion": "^3.0.3",
     "better-sqlite3": "^12.5.0",
     "eslint": "^9.39.1",
+    "ipx": "^3.1.1",
     "motion-v": "^1.7.4",
     "nuxt": "^4.2.1",
     "typescript": "^5.9.3",
     "vue": "^3.5.25",
     "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@types/tailwindcss": "^3.0.11",
+    "autoprefixer": "^10.4.22",
+    "node-gyp": "^12.1.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17"
   }
 }
