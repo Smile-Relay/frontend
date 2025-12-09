@@ -1,1 +1,4 @@
 @import "tailwindcss";
+span {
+    font-family: Roboto, sans-serif;
+}
