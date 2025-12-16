@@ -26,19 +26,19 @@ const goNext = async () => {
     </Motion>
     <Motion
         v-if="waiting"
-        class="absolute bottom-0"
-        :animate="{ y: [-220, -170, -220], x: [-20, 0, 20] }"
+        class="absolute bottom-[75px]"
+        :animate="{ y: [-100, -50, -100], x: [-20, 0, 20] }"
         :transition="{ duration: 3, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
     >
-      <span class="text-[200px]">📜</span>
+      <img class="h-[200px]" src="/scroll.png">
     </Motion>
     <Motion
         v-if="!waiting"
         class="absolute bottom-[30%] z-99999"
         :animate="{ scale: 4 }"
-        :transition="{ duration: 3 }"
+        :transition="{ duration: 2 }"
     >
-      <span class="text-[200px]">📜</span>
+      <img class="h-[200px]" src="/scroll.png">
     </Motion>
     <Motion
         v-if="!waiting"
@@ -48,9 +48,12 @@ const goNext = async () => {
         :transition="{ duration: 3 }"
     >
       <img src="/生成特定自拍照%202.png">
-      <p>You must throw a picture in a bottle to view it.</p>
-      <button @click="router.push('/view')">
-        Go to take a photo
+      <p>捡到了某人扔在此处的漂流瓶</p>
+      <button class="px-6 py-2 rounded-xl bg-blue-600 text-white font-medium
+         hover:bg-blue-700 active:scale-95
+         transition duration-200 ease-in-out
+         focus:outline-none focus:ring-2 focus:ring-blue-400" @click="router.push('/view')">
+        扔一个再查看吧
       </button>
     </Motion>
     <Motion
@@ -58,7 +61,7 @@ const goNext = async () => {
         :animate="{ y: [-100, -50, -100], x: [-20, 0, 20] }"
         :transition="{ duration: 3, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
     >
-      <span class="text-[400px]">🫙</span>
+      <img class="h-[400px]" src="/jar.png">
     </Motion>
     <Motion
         class="absolute w-[200%] bottom-0"
