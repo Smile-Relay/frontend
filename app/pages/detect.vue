@@ -51,7 +51,7 @@ const generateEmotionOption = async (probabilities: Prediction)=>{
     body: JSON.stringify({
       model: "deepseek-ai/DeepSeek-V3.2",
       messages: [
-          { role: "user", content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用生成几个纯中文的用户可能的情绪选项选项(如愤怒, 伤心, 疲惫, 想回家等)。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分` }
+          { role: "user", content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用生成两个以上的纯中文的用户可能的情绪选项选项(如愤怒, 伤心, 疲惫, 想回家等)。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分` }
       ]
     })
   })
