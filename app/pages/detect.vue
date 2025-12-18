@@ -87,7 +87,7 @@ const getHandleSection = (probabilities: Prediction) => {
           messages: [
             {
               role: "user",
-              content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己的情绪为${selection}, 生成一段20-30字的话来承接用户的情绪, 不用太过文艺, 最简单的语言就好, 不需要回应而是描述`
+              content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己现在的状态为${selection}, 生成一段20-30字的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态`
             }
           ],
           stream: true
