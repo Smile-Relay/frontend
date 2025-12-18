@@ -1,21 +1,18 @@
 <script setup lang="ts">
-import { Motion, useAnimate } from "@oku-ui/motion";
+import { Motion } from "@oku-ui/motion";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
 
 const router = useRouter();
-const { animate, scope } = useAnimate();
 
-const waiting = ref(true)
 
 const goNext = async () => {
-  waiting.value = false
+  await router.push("/detect")
 };
 </script>
 
 
 <template>
-  <div class="flex justify-center h-screen" :ref="scope.el" @click="goNext">
+  <div class="flex justify-center h-screen" @click="goNext">
   <h1 class="font-bold text-6xl">Click to open it</h1>
     <Motion
         class="absolute w-[200%] bottom-0"
@@ -25,36 +22,11 @@ const goNext = async () => {
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" class="w-full" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="waveGradient0" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4F46E5" stop-opacity="0.8"/><stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.5599999999999999"/></linearGradient><linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FF6B6B"/><stop offset="16.66%" stop-color="#4ECDC4"/><stop offset="33.33%" stop-color="#45B7D1"/><stop offset="50%" stop-color="#96CEB4"/><stop offset="66.66%" stop-color="#FFEAA7"/><stop offset="83.33%" stop-color="#DDA0DD"/><stop offset="100%" stop-color="#FF6B6B"/></linearGradient></defs><path d="M 0.00 420.00 L 6.00 415.18 L 12.00 410.25 L 18.00 405.32 L 24.00 400.55 L 30.00 396.08 L 36.00 392.06 L 42.00 388.61 L 48.00 385.88 L 54.00 383.95 L 60.00 382.93 L 66.00 382.86 L 72.00 383.77 L 78.00 385.67 L 84.00 388.52 L 90.00 392.25 L 96.00 396.78 L 102.00 401.97 L 108.00 407.68 L 114.00 413.75 L 120.00 420.00 L 126.00 426.25 L 132.00 432.32 L 138.00 438.03 L 144.00 443.22 L 150.00 447.75 L 156.00 451.48 L 162.00 454.33 L 168.00 456.23 L 174.00 457.14 L 180.00 457.07 L 186.00 456.05 L 192.00 454.12 L 198.00 451.39 L 204.00 447.94 L 210.00 443.92 L 216.00 439.45 L 222.00 434.68 L 228.00 429.75 L 234.00 424.82 L 240.00 420.00 L 246.00 415.43 L 252.00 411.21 L 258.00 407.44 L 264.00 404.18 L 270.00 401.49 L 276.00 399.40 L 282.00 397.93 L 288.00 397.06 L 294.00 396.78 L 300.00 397.07 L 306.00 397.88 L 312.00 399.16 L 318.00 400.87 L 324.00 402.94 L 330.00 405.32 L 336.00 407.96 L 342.00 410.79 L 348.00 413.78 L 354.00 416.87 L 360.00 420.00 L 366.00 423.13 L 372.00 426.22 L 378.00 429.21 L 384.00 432.04 L 390.00 434.68 L 396.00 437.06 L 402.00 439.13 L 408.00 440.84 L 414.00 442.12 L 420.00 442.93 L 426.00 443.22 L 432.00 442.94 L 438.00 442.07 L 444.00 440.60 L 450.00 438.51 L 456.00 435.82 L 462.00 432.56 L 468.00 428.79 L 474.00 424.57 L 480.00 420.00 L 486.00 415.18 L 492.00 410.25 L 498.00 405.32 L 504.00 400.55 L 510.00 396.08 L 516.00 392.06 L 522.00 388.61 L 528.00 385.88 L 534.00 383.95 L 540.00 382.93 L 546.00 382.86 L 552.00 383.77 L 558.00 385.67 L 564.00 388.52 L 570.00 392.25 L 576.00 396.78 L 582.00 401.97 L 588.00 407.68 L 594.00 413.75 L 600.00 420.00 L 606.00 426.25 L 612.00 432.32 L 618.00 438.03 L 624.00 443.22 L 630.00 447.75 L 636.00 451.48 L 642.00 454.33 L 648.00 456.23 L 654.00 457.14 L 660.00 457.07 L 666.00 456.05 L 672.00 454.12 L 678.00 451.39 L 684.00 447.94 L 690.00 443.92 L 696.00 439.45 L 702.00 434.68 L 708.00 429.75 L 714.00 424.82 L 720.00 420.00 L 726.00 415.43 L 732.00 411.21 L 738.00 407.44 L 744.00 404.18 L 750.00 401.49 L 756.00 399.40 L 762.00 397.93 L 768.00 397.06 L 774.00 396.78 L 780.00 397.07 L 786.00 397.88 L 792.00 399.16 L 798.00 400.87 L 804.00 402.94 L 810.00 405.32 L 816.00 407.96 L 822.00 410.79 L 828.00 413.78 L 834.00 416.87 L 840.00 420.00 L 846.00 423.13 L 852.00 426.22 L 858.00 429.21 L 864.00 432.04 L 870.00 434.68 L 876.00 437.06 L 882.00 439.13 L 888.00 440.84 L 894.00 442.12 L 900.00 442.93 L 906.00 443.22 L 912.00 442.94 L 918.00 442.07 L 924.00 440.60 L 930.00 438.51 L 936.00 435.82 L 942.00 432.56 L 948.00 428.79 L 954.00 424.57 L 960.00 420.00 L 966.00 415.18 L 972.00 410.25 L 978.00 405.32 L 984.00 400.55 L 990.00 396.08 L 996.00 392.06 L 1002.00 388.61 L 1008.00 385.88 L 1014.00 383.95 L 1020.00 382.93 L 1026.00 382.86 L 1032.00 383.77 L 1038.00 385.67 L 1044.00 388.52 L 1050.00 392.25 L 1056.00 396.78 L 1062.00 401.97 L 1068.00 407.68 L 1074.00 413.75 L 1080.00 420.00 L 1086.00 426.25 L 1092.00 432.32 L 1098.00 438.03 L 1104.00 443.22 L 1110.00 447.75 L 1116.00 451.48 L 1122.00 454.33 L 1128.00 456.23 L 1134.00 457.14 L 1140.00 457.07 L 1146.00 456.05 L 1152.00 454.12 L 1158.00 451.39 L 1164.00 447.94 L 1170.00 443.92 L 1176.00 439.45 L 1182.00 434.68 L 1188.00 429.75 L 1194.00 424.82 L 1200.00 420.00 L 1200.00 600.00 L 0.00 600.00 Z" fill="#3B82F6" fill-opacity="0.8" transform="" class="" style="transition:all 0.3s ease;filter:blur(0px)"/></svg>
     </Motion>
     <Motion
-        v-if="waiting"
         class="absolute bottom-[75px]"
         :animate="{ y: [-100, -50, -100], x: [-20, 0, 20] }"
         :transition="{ duration: 3, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
     >
       <img class="h-[200px]" src="/scroll.png">
-    </Motion>
-    <Motion
-        v-if="!waiting"
-        class="absolute bottom-[30%] z-99999"
-        :animate="{ scale: 4 }"
-        :transition="{ duration: 2 }"
-    >
-      <img class="h-[200px]" src="/scroll.png">
-    </Motion>
-    <Motion
-        v-if="!waiting"
-        class="absolute bottom-[30%] z-99999 w-[300px]"
-        :initial="{ opacity: 0, scale: 0}"
-        :animate="{ opacity: 1, scale: 1}"
-        :transition="{ duration: 3 }"
-    >
-      <img src="/生成特定自拍照%202.png">
-      <p>捡到了某人扔在此处的漂流瓶</p>
-      <button class="px-6 py-2 rounded-xl bg-blue-600 text-white font-medium
-         hover:bg-blue-700 active:scale-95
-         transition duration-200 ease-in-out
-         focus:outline-none focus:ring-2 focus:ring-blue-400" @click="router.push('/view')">
-        扔一个再查看吧
-      </button>
     </Motion>
     <Motion
         class="absolute bottom-0"
@@ -73,5 +45,4 @@ const goNext = async () => {
   </div>
 </template>
 <style>
-
 </style>
