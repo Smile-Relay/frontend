@@ -11,8 +11,8 @@ const feelingOptions = ref<any[]>([])
 const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
-const handleSelection = ref(async (value: string)=>{})
-const handleFeelingSelection = ref(async (value: string)=>{})
+const displayThrow = ref(false)
+const handleSelection = ref(async (value: string)=>{console.log(value)})
 
 type Prediction = {
   Angry: number,
@@ -70,7 +70,7 @@ const generateEmotionOption = async (probabilities: Prediction)=>{
 }
 
 const getHandleSection = (probabilities: Prediction) => {
-  return async (selection: String) => {
+  return async (selection: string) => {
     console.log(selection)
     displayOptions.value = false
     if (!tipText.value) return;
@@ -87,7 +87,7 @@ const getHandleSection = (probabilities: Prediction) => {
           messages: [
             {
               role: "user",
-              content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己的情绪为${selection}, 生成一段话来承接用户的情绪, 不需要回应而是描述`
+              content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己的情绪为${selection}, 生成一段20-30字的话来承接用户的情绪, 不用太过文艺, 最简单的语言就好, 不需要回应而是描述`
             }
           ],
           stream: true
@@ -104,7 +104,7 @@ const getHandleSection = (probabilities: Prediction) => {
           messages: [
             {
               role: "user",
-              content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己的情绪为${selection}, 用生成几个纯中文的用户可能的感受选项选项(如累, 想逃离, 还可以), 尽量短。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分`
+              content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己的情绪为${selection}, 用生成三个纯中文的用户可能的感受选项选项(如累, 想逃离, 还可以), 尽量短, 太长扣分。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分`
             }
           ]
         })
@@ -139,14 +139,19 @@ const getHandleSection = (probabilities: Prediction) => {
             const data = JSON.parse(jsonStr)
             const content = data.choices?.[0]?.delta?.content
             if (content) text.value += content
+            console.log(content)
           } catch {}
         })
       }
       displayFeelings.value = true;
     }
-    txt()
-    opt()
+    await Promise.all([txt(), opt()])
   }
+}
+
+const handleFeelingSelection = async (selection: string)=>{
+    displayFeelings.value = false
+    console.log(selection)
 }
 
 onMounted(()=>{
