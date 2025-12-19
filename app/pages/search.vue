@@ -65,7 +65,7 @@ async function doSomething(adjIndex: number, nounIndex: number) {
     <button
         :class="[
         'px-6 py-2 rounded-lg font-medium transition-colors duration-200',
-        canNext ? 'bg-blue-500 text-white cursor-pointer' : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+        'bg-blue-500 text-white cursor-pointer'
       ]"
         @click="router.push('/').then(router.go(0))"
     >
