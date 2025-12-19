@@ -9,7 +9,7 @@ const text = ref<string>("")
 const isActive = ref(true);
 const repeat = ref(Infinity)
 const options = ref<any[]>([])
-const feelingOptions = ref(["想放假", "好饿啊", "想家", "求锦鲤", "求灵感", "上岸!"])
+const feelingOptions = ref(["想放假✈️", "好饿啊🍔", "想家🏠", "🍀求锦鲤", "求灵感💡", "🏫上岸!"])
 const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
@@ -51,7 +51,7 @@ const detect = async ()=>{
 
 const generateEmotionOption = async (probabilities: Prediction)=>{
   const response = await llm.completions(
-      [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用生成两个以上的纯中文的用户可能的情绪选项选项(如愤怒, 伤心, 疲惫, 想回家等)。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分`) ]
+      [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用生成两个以上的一个emoji+中文的用户可能的情绪选项选项(如愤怒, 伤心, 疲惫, 想回家等)。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分`) ]
   )
   isActive.value = false
   repeat.value = 0;
