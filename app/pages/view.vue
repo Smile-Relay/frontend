@@ -32,7 +32,7 @@ onMounted( async ()=>{
     }
   }
   const bottle_response = await fetch(`http://localhost:5001/get_bottle/${id.value}`)
-  if (bottle_response != 200) {
+  if (bottle_response.status != 200) {
     await router.push("/search")
     return
   }
