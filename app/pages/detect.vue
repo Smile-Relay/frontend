@@ -83,7 +83,7 @@ const getHandleSection = (probabilities: Prediction) => {
     const decoder = new TextDecoder()
     if (!reader) return
     if (!tipText.value)return;
-    tipText.value.textContent = "我为你写了段话";
+    tipText.value.textContent = "我觉得这是你现在的感受";
     setTimeout(()=>{displayText.value = true;}, 500)
     while (true) {
       const { value, done } = await reader.read()
@@ -252,7 +252,7 @@ onUnmounted(() => {
           }"
       >
         <bottle :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
-        <p class="text-2xl text-amber-50">你的情绪漂流瓶已扔出, 记住你的瓶子id: </p>
+        <p class="text-3xl text-amber-50">你的情绪漂流瓶已扔出, 记住你的瓶子id: </p>
         <p class="w-full text-center text-8xl text-amber-50"><strong>{{phrase}}</strong></p>
       </Motion>
     </MotionPresence>
