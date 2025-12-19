@@ -141,6 +141,16 @@ const handleThrowSelection = async (selection: string)=>{
   displayEnd.value = true
 }
 
+const handleLeaveSelection = async (selection: string)=>{
+  if (selection === "离开"){
+    await router.push("/")
+    return
+  }
+  await router.push("/view")
+}
+
+
+
 onMounted(()=>{
   setTimeout(detect, 500)
 })
@@ -254,6 +264,7 @@ onUnmounted(() => {
         <bottle :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
         <p class="text-3xl text-amber-50">你的情绪漂流瓶已扔出, 记住你的瓶子id: </p>
         <p class="w-full text-center text-8xl text-amber-50"><strong>{{phrase}}</strong></p>
+        <EmotionOptions @select="handleLeaveSelection" :options="[ '看看别人的', '离开' ]" />
       </Motion>
     </MotionPresence>
   </div>
