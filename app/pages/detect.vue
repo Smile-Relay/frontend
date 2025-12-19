@@ -61,7 +61,8 @@ const generateEmotionOption = async (probabilities: Prediction)=>{
   console.log(content)
   setTimeout(()=>{
     options.value = [...content.matchAll(/\{\{\{(.*?)}}}/g)]
-        .map(m => m[1]);
+        .map(m => m[1])
+        .filter(Boolean);
     console.log(options.value)
     displayOptions.value = true
   }, 1500)
