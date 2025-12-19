@@ -19,6 +19,9 @@ const get_new = async ()=>{
   emotion.value = bottle.emotion
   feeling.value = bottle.feeling
   img_url.value = bottle.img_url
+  flowers.value = bottle.flowers
+  likes.value = bottle.likes
+  hugs.value = bottle.hugs
 }
 
 onMounted( async ()=>{
@@ -32,9 +35,16 @@ onMounted( async ()=>{
       emotion.value = bottle.emotion
       feeling.value = bottle.feeling
       img_url.value = bottle.img_url
+      flowers.value = bottle.flowers
+      likes.value = bottle.likes
+      hugs.value = bottle.hugs
     }
   }
 })
+
+const handleAction = async (action: string) => {
+  await fetch(`http://localhost:5001/comment/${id.value}?type=${action}`)
+}
 </script>
 
 <template>
@@ -48,7 +58,7 @@ onMounted( async ()=>{
     />
 
     <div v-show="id" class="mt-6 flex gap-4">
-      <Comments />
+      <Comments @action="handleAction" />
     </div>
 
     <div v-show="id" class="mt-6 flex gap-4">
