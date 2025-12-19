@@ -251,7 +251,8 @@ onUnmounted(() => {
           }"
       >
         <bottle :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
-        <p class="text-2xl text-amber-50">你的情绪漂流瓶已扔出, 记住你的短语: <strong>{{phrase}}</strong></p>
+        <p class="text-2xl text-amber-50">你的情绪漂流瓶已扔出, 记住你的瓶子id: </p>
+        <p class="text-4xl"><strong>{{phrase}}</strong></p>
       </Motion>
     </MotionPresence>
   </div>
