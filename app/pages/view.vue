@@ -29,17 +29,20 @@ onMounted( async ()=>{
     const random_id = await fetch("http://localhost:5001/random_id")
     if (random_id.status === 200){
       id.value = await random_id.text()
-      const bottle_response = await fetch(`http://localhost:5001/get_bottle/${id.value}`)
-      const bottle = await bottle_response.json()
-      passage.value = bottle.passage
-      emotion.value = bottle.emotion
-      feeling.value = bottle.feeling
-      img_url.value = bottle.img_url
-      flowers.value = bottle.flowers
-      likes.value = bottle.likes
-      hugs.value = bottle.hugs
     }
   }
+  const bottle_response = await fetch(`http://localhost:5001/get_bottle/${id.value}`)
+  if (bottle_response == 404) {
+    router.push("/search")
+  }
+  const bottle = await bottle_response.json()
+  passage.value = bottle.passage
+  emotion.value = bottle.emotion
+  feeling.value = bottle.feeling
+  img_url.value = bottle.img_url
+  flowers.value = bottle.flowers
+  likes.value = bottle.likes
+  hugs.value = bottle.hugs
 })
 
 const handleAction = async (action: string) => {
