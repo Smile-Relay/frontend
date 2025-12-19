@@ -33,7 +33,7 @@ onMounted( async ()=>{
   }
   const bottle_response = await fetch(`http://localhost:5001/get_bottle/${id.value}`)
   if (bottle_response == 404) {
-    router.push("/search")
+    await router.push("/search")
   }
   const bottle = await bottle_response.json()
   passage.value = bottle.passage
