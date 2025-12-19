@@ -2,11 +2,6 @@
 import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-    fonts: {
-        experimental: {
-            processCSSVariables: true,
-        },
-    },
   devtools: { enabled: true },
     vite: {
         plugins: [
@@ -23,6 +18,5 @@ export default defineNuxtConfig({
     '@nuxt/test-utils',
     '@nuxt/ui',
     '@oku-ui/motion/nuxt',
-    '@nuxt/fonts'
   ]
 })

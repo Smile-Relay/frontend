@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import {Motion, MotionPresence} from "@oku-ui/motion";
 import {onMounted, onUnmounted, ref} from 'vue'
+import { useLLM, Message } from '~/composables/useLLM'
 
 const tipText = ref<null|HTMLParagraphElement>(null);
 const text = ref<string>("")
 const isActive = ref(true);
 const repeat = ref(Infinity)
 const options = ref<any[]>([])
-const feelingOptions = ref<any[]>([])
+const feelingOptions = ref<string[]>(["😶‍🌫️ 累", "🌊 想逃离", "🌱 还可以"])
 const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
 const displayThrow = ref(false)
 const handleSelection = ref(async (value: string)=>{console.log(value)})
+const llm = useLLM()
 
 type Prediction = {
   Angry: number,
@@ -42,19 +44,9 @@ const detect = async ()=>{
 }
 
 const generateEmotionOption = async (probabilities: Prediction)=>{
-  const response = await fetch("https://api.siliconflow.cn/v1/chat/completions", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer API_KEY_REMOVED`
-    },
-    body: JSON.stringify({
-      model: "deepseek-ai/DeepSeek-V3",
-      messages: [
-          { role: "user", content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用生成两个以上的纯中文的用户可能的情绪选项选项(如愤怒, 伤心, 疲惫, 想回家等)。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分` }
-      ]
-    })
-  })
+  const response = await llm.completions(
+      [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用生成两个以上的纯中文的用户可能的情绪选项选项(如愤怒, 伤心, 疲惫, 想回家等)。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分`) ]
+  )
   isActive.value = false
   repeat.value = 0;
   const message = JSON.parse(await response.text());
@@ -75,83 +67,44 @@ const getHandleSection = (probabilities: Prediction) => {
     displayOptions.value = false
     if (!tipText.value) return;
     tipText.value.textContent = "好的, 让我想想🤔";
-    const [response1, response2] = await Promise.all([
-      fetch("https://api.siliconflow.cn/v1/chat/completions", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer API_KEY_REMOVED`
-        },
-        body: JSON.stringify({
-          model: "deepseek-ai/DeepSeek-V3",
-          messages: [
-            {
-              role: "user",
-              content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己现在的状态为${selection}, 生成一段20-30字的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态, 只需要这段话就好,不要有多余的东西`
-            }
-          ],
-          stream: true
-        })
-      }),
-      fetch("https://api.siliconflow.cn/v1/chat/completions", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer API_KEY_REMOVED`
-        },
-        body: JSON.stringify({
-          model: "deepseek-ai/DeepSeek-V3",
-          messages: [
-            {
-              role: "user",
-              content: `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己的情绪为${selection}, 用生成三个纯中文的用户可能的感受选项选项(如累, 想逃离, 还可以), 尽量短, 太长扣分。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分`
-            }
-          ]
-        })
-      })
-    ])
-    const reader = response1.body?.getReader()
+    const response = await llm.completions(
+        [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己现在的状态为${selection}, 生成一段20-30字的没有人称的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态, 只需要这段话就好,不要有多余的文字或符号`) ],
+        true
+    )
+    const reader = response.body?.getReader()
     const decoder = new TextDecoder()
+    if (!reader) return
+    if (!tipText.value)return;
+    tipText.value.textContent = "我为你写了段话";
+    displayText.value = true;
 
-    const opt = async ()=>{
-      const message = JSON.parse(await response2.text());
-      console.log(message)
-      const content = message.choices[0].message.content
-      console.log(content)
-      feelingOptions.value = [...content.matchAll(/\{\{\{(.*?)}}}/g)]
-          .map(m => m[1]);
+    while (true) {
+      const { value, done } = await reader.read()
+      if (done) break
+      const chunk = decoder.decode(value)
+      chunk.split('\n').forEach(line => {
+        if (!line.startsWith('data: ')) return
+        const jsonStr = line.replace(/^data: /, '').trim()
+        if (jsonStr === '[DONE]') return
+        try {
+          const data = JSON.parse(jsonStr)
+          const content = data.choices?.[0]?.delta?.content
+          if (content) text.value += content
+          console.log(content)
+        } catch {}
+      })
     }
-    const txt = async ()=>{
-      if (!reader) return
-      if (!tipText.value)return;
-      tipText.value.textContent = "我为你写了段话";
-      displayText.value = true;
-
-      while (true) {
-        const { value, done } = await reader.read()
-        if (done) break
-        const chunk = decoder.decode(value)
-        chunk.split('\n').forEach(line => {
-          if (!line.startsWith('data: ')) return
-          const jsonStr = line.replace(/^data: /, '').trim()
-          if (jsonStr === '[DONE]') return
-          try {
-            const data = JSON.parse(jsonStr)
-            const content = data.choices?.[0]?.delta?.content
-            if (content) text.value += content
-            console.log(content)
-          } catch {}
-        })
-      }
-      displayFeelings.value = true;
-    }
-    await Promise.all([txt(), opt()])
+    displayFeelings.value = true;
   }
 }
 
 const handleFeelingSelection = async (selection: string)=>{
-    displayFeelings.value = false
-    console.log(selection)
+  if (!tipText.value) return;
+  displayText.value = false
+  displayFeelings.value = false
+  console.log(selection)
+  displayThrow.value = true
+  tipText.value.textContent = "这是你的情绪漂流瓶🫙"
 }
 
 onMounted(()=>{
@@ -189,7 +142,6 @@ onUnmounted(() => {
     </MotionPresence>
     <MotionPresence>
       <Motion
-          v-show="displayText"
           :animate="{
             opacity: 1
           }"
@@ -202,7 +154,7 @@ onUnmounted(() => {
           }"
           class="content-center"
       >
-        <TextBlock :text="text" />
+        <TextBlock v-show="displayText" :text="text" />
         <div
             v-show="displayFeelings">
           <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的感受?</p>
@@ -229,6 +181,28 @@ onUnmounted(() => {
       >
         <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的情绪?</p>
         <EmotionOptions @select="handleSelection" :options="options" />
+      </Motion>
+    </MotionPresence>
+    <MotionPresence>
+      <Motion
+          v-show="displayThrow"
+          :animate="{
+            opacity: 1
+          }"
+          :initial="{
+            opacity: 0
+          }"
+          :transition="{
+            duration: 1.5,
+            ease: 'easeInOut'
+          }"
+          :exit="{
+            opacity: 0
+          }"
+      >
+        <bottle :passage="text"></bottle>
+        <p class="text-2xl text-amber-50">你要扔出它吗</p>
+        <EmotionOptions :options="['扔出', '不扔出']"></EmotionOptions>
       </Motion>
     </MotionPresence>
   </div>
