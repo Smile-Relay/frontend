@@ -4,7 +4,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-
 const goNext = async () => {
   await router.push("/detect")
 };

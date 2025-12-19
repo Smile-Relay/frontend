@@ -2,19 +2,25 @@
 import {Motion, MotionPresence} from "@oku-ui/motion";
 import {onMounted, onUnmounted, ref} from 'vue'
 import { useLLM, Message } from '~/composables/useLLM'
+import {useRouter} from "#vue-router";
 
 const tipText = ref<null|HTMLParagraphElement>(null);
 const text = ref<string>("")
 const isActive = ref(true);
 const repeat = ref(Infinity)
 const options = ref<any[]>([])
-const feelingOptions = ref<string[]>(["😶‍🌫️ 累", "🌊 想逃离", "🌱 还可以"])
+const feelingOptions = ref(["想放假", "好饿啊", "想家", "求锦鲤", "求灵感", "上岸!"])
 const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
 const displayThrow = ref(false)
+const displayEnd = ref(false)
 const handleSelection = ref(async (value: string)=>{console.log(value)})
 const llm = useLLM()
+const emotion = ref("")
+const feeling = ref("")
+const phrase = ref("")
+const router = useRouter();
 
 type Prediction = {
   Angry: number,
@@ -64,6 +70,7 @@ const generateEmotionOption = async (probabilities: Prediction)=>{
 const getHandleSection = (probabilities: Prediction) => {
   return async (selection: string) => {
     console.log(selection)
+    emotion.value = selection
     displayOptions.value = false
     if (!tipText.value) return;
     tipText.value.textContent = "好的, 让我想想🤔";
@@ -76,8 +83,7 @@ const getHandleSection = (probabilities: Prediction) => {
     if (!reader) return
     if (!tipText.value)return;
     tipText.value.textContent = "我为你写了段话";
-    displayText.value = true;
-
+    setTimeout(()=>{displayText.value = true;}, 500)
     while (true) {
       const { value, done } = await reader.read()
       if (done) break
@@ -103,8 +109,35 @@ const handleFeelingSelection = async (selection: string)=>{
   displayText.value = false
   displayFeelings.value = false
   console.log(selection)
+  feeling.value = selection
   displayThrow.value = true
   tipText.value.textContent = "这是你的情绪漂流瓶🫙"
+}
+
+const handleThrowSelection = async (selection: string)=>{
+  if (selection === "不扔出"){
+    await router.push("/")
+    return
+  }
+  const get_vocabulary = await fetch("http://localhost:5001/random_vocabulary")
+  const vocabulary = await get_vocabulary.json()
+  console.log(vocabulary)
+  phrase.value = vocabulary.vocabulary[0] + vocabulary.vocabulary[1]
+  const response = await fetch("http://localhost:5001/throw", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      emotion: emotion.value,
+      feeling: feeling.value,
+      passage: text.value,
+      id: vocabulary.id
+    })
+  })
+  await response.text()
+  displayThrow.value = false
+  displayEnd.value = true
 }
 
 onMounted(()=>{
@@ -183,9 +216,26 @@ onUnmounted(() => {
         <EmotionOptions @select="handleSelection" :options="options" />
       </Motion>
     </MotionPresence>
+    <Motion
+        v-show="displayThrow"
+        :animate="{
+          opacity: 1
+        }"
+        :initial="{
+          opacity: 0
+        }"
+        :transition="{
+          duration: 1.5,
+          ease: 'easeInOut'
+        }"
+    >
+      <bottle :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
+      <p class="text-2xl text-amber-50">你要扔出它吗</p>
+      <EmotionOptions @select="handleThrowSelection" :options="['扔出', '不扔出']"></EmotionOptions>
+    </Motion>
     <MotionPresence>
       <Motion
-          v-show="displayThrow"
+          v-show="displayEnd"
           :animate="{
             opacity: 1
           }"
@@ -200,9 +250,8 @@ onUnmounted(() => {
             opacity: 0
           }"
       >
-        <bottle :passage="text"></bottle>
-        <p class="text-2xl text-amber-50">你要扔出它吗</p>
-        <EmotionOptions :options="['扔出', '不扔出']"></EmotionOptions>
+        <bottle :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
+        <p class="text-2xl text-amber-50">你的情绪漂流瓶已扔出, 记住你的短语: <strong>{{phrase}}</strong></p>
       </Motion>
     </MotionPresence>
   </div>
