@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineEmits, defineProps } from 'vue'
+import { ref, watch, defineEmits, defineProps } from 'vue'
 
 interface Props {
   initialLike?: number
@@ -15,6 +15,17 @@ const emit = defineEmits<{
 const likeCount = ref(props.initialLike || 0)
 const hugCount = ref(props.initialHug || 0)
 const flowerCount = ref(props.initialFlower || 0)
+
+// Watch props to update counts when parent changes
+watch(() => props.initialLike, (val) => {
+  if (val !== undefined) likeCount.value = val
+})
+watch(() => props.initialHug, (val) => {
+  if (val !== undefined) hugCount.value = val
+})
+watch(() => props.initialFlower, (val) => {
+  if (val !== undefined) flowerCount.value = val
+})
 
 function handleAction(action: 'like' | 'hug' | 'flower') {
   let newCount = 0

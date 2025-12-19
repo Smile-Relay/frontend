@@ -58,7 +58,7 @@ const handleAction = async (action: string) => {
     />
 
     <div v-show="id" class="mt-6 flex gap-4">
-      <Comments @action="handleAction" />
+      <Comments :initial-flower="flowers" :initial-hug="hugs" :initial-like="likes" @action="handleAction" />
     </div>
 
     <div v-show="id" class="mt-6 flex gap-4">
