@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {Motion, MotionPresence} from "@oku-ui/motion";
 import {onMounted, onUnmounted, ref} from 'vue'
+import { useRouter } from "#vue-router";
 import { useLLM, Message } from '~/composables/useLLM'
-import {useRouter} from "#vue-router";
+import { useBackHome } from "~/composables/useBackHome";
 
 const tipText = ref<null|HTMLParagraphElement>(null);
 const text = ref<string>("")
@@ -42,6 +43,7 @@ const detect = async ()=>{
     await detect()
     return
   }
+  refresh_timer()
   tipText.value.textContent = "好, 非常棒";
   const probabilities = JSON.parse(text) as Prediction;
   console.log(probabilities)
@@ -74,6 +76,7 @@ const getHandleSection = (probabilities: Prediction) => {
     emotion.value = selection
     displayOptions.value = false
     if (!tipText.value) return;
+    refresh_timer()
     tipText.value.textContent = "好的, 让我想想🤔";
     const response = await llm.completions(
         [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己现在的状态为${selection}, 生成一段20-30字的没有人称的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态, 只需要这段话就好,不要有多余的文字或符号`) ],
@@ -88,6 +91,7 @@ const getHandleSection = (probabilities: Prediction) => {
     while (true) {
       const { value, done } = await reader.read()
       if (done) break
+      refresh_timer()
       const chunk = decoder.decode(value)
       chunk.split('\n').forEach(line => {
         if (!line.startsWith('data: ')) return
@@ -107,6 +111,7 @@ const getHandleSection = (probabilities: Prediction) => {
 
 const handleFeelingSelection = async (selection: string)=>{
   if (!tipText.value) return;
+  refresh_timer()
   displayText.value = false
   displayFeelings.value = false
   console.log(selection)
@@ -116,6 +121,7 @@ const handleFeelingSelection = async (selection: string)=>{
 }
 
 const handleThrowSelection = async (selection: string)=>{
+  refresh_timer()
   if (selection === "不扔出"){
     await router.push("/")
     return
@@ -142,6 +148,7 @@ const handleThrowSelection = async (selection: string)=>{
 }
 
 const handleLeaveSelection = async (selection: string)=>{
+  refresh_timer()
   if (selection === "离开"){
     await router.push("/")
     return
@@ -149,7 +156,7 @@ const handleLeaveSelection = async (selection: string)=>{
   await router.push("/view")
 }
 
-
+const { refresh_timer, clear_timer } = useBackHome(router, 20000);
 
 onMounted(()=>{
   setTimeout(detect, 500)
@@ -157,6 +164,7 @@ onMounted(()=>{
 
 onUnmounted(() => {
   isActive.value = false;
+  clear_timer()
 })
 
 </script>

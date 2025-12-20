@@ -2,28 +2,32 @@
 import { ref, computed } from 'vue'
 import { useVocabularies } from "~/composables/useVocabularies";
 import { useRouter } from "vue-router";
+import { useBackHome } from "~/composables/useBackHome";
 
 const vocabularies = await useVocabularies()
 const adjectives = vocabularies.adjectives
 const nouns = vocabularies.nouns
 const router = useRouter()
+const { refresh_timer, clear_timer } = useBackHome(router, 20000)
 
 const selectedAdjectiveIndex = ref<number | null>(null)
 const selectedNounIndex = ref<number | null>(null)
 
 const canNext = computed(() => selectedAdjectiveIndex.value !== null && selectedNounIndex.value !== null)
 
-function nextStep() {
+const nextStep = async () => {
   if (!canNext.value) return
-  doSomething(selectedAdjectiveIndex.value!, selectedNounIndex.value!)
-}
-
-async function doSomething(adjIndex: number, nounIndex: number) {
-  const id = adjIndex.toString(16).toUpperCase() + nounIndex.toString(16).toUpperCase()
+  if (!selectedAdjectiveIndex.value) return;
+  if (!selectedNounIndex.value) return;
+  const id = selectedAdjectiveIndex.value.toString(16).toUpperCase() + selectedNounIndex.value.toString(16).toUpperCase()
   console.log(id)
   await router.push(`/view?id=${id}`)
-  router.go(0)
 }
+
+onUnmounted(()=>{
+  clear_timer()
+}
+)
 </script>
 
 <template>
@@ -38,7 +42,7 @@ async function doSomething(adjIndex: number, nounIndex: number) {
           'text-2xl border rounded-lg cursor-pointer flex items-center justify-center text-center transition-colors duration-200 h-16',
           selectedAdjectiveIndex === index ? 'bg-blue-500 text-white font-semibold' : 'bg-gray-100 hover:bg-blue-200'
         ]"
-          @click="selectedAdjectiveIndex = index"
+          @click="selectedAdjectiveIndex = index;refresh_timer()"
       >
         {{ adj }}
       </div>
@@ -54,7 +58,7 @@ async function doSomething(adjIndex: number, nounIndex: number) {
           'text-2xl border rounded-lg cursor-pointer flex items-center justify-center text-center transition-colors duration-200 h-16',
           selectedNounIndex === index ? 'bg-green-500 text-white font-semibold' : 'bg-gray-100 hover:bg-green-200'
         ]"
-          @click="selectedNounIndex = index"
+          @click="selectedNounIndex = index;refresh_timer()"
       >
         {{ noun }}
       </div>
@@ -67,7 +71,7 @@ async function doSomething(adjIndex: number, nounIndex: number) {
         'px-6 py-2 rounded-lg font-medium transition-colors duration-200',
         'bg-blue-500 text-white cursor-pointer'
       ]"
-        @click="router.push('/').then(router.go(0))"
+        @click="router.push('/')"
     >
       返回
     </button>
@@ -85,5 +89,4 @@ async function doSomething(adjIndex: number, nounIndex: number) {
 </template>
 
 <style scoped>
-/* 高度固定，宽度自适应网格 */
 </style>

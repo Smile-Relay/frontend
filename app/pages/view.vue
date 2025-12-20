@@ -9,8 +9,10 @@ const img_url = ref("")
 const flowers = ref(0)
 const likes = ref(0)
 const hugs = ref(0)
+const { refresh_timer, clear_timer } = useBackHome(router, 20000)
 
 const get_new = async ()=>{
+  refresh_timer()
   const random_id = await fetch("http://localhost:5001/random_id")
   id.value = await random_id.text()
   const bottle_response = await fetch(`http://localhost:5001/get_bottle/${id.value}`)
@@ -47,8 +49,12 @@ onMounted( async ()=>{
 })
 
 const handleAction = async (action: string) => {
+  refresh_timer()
   await fetch(`http://localhost:5001/comment/${id.value}?type=${action}`)
 }
+onUnmounted(() => {
+  clear_timer()
+})
 </script>
 
 <template>

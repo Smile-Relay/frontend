@@ -11,7 +11,7 @@ const goNext = async () => {
 
 
 <template>
-  <div class="flex justify-center w-[100vw] h-[100vh] overflow-hidden" @click="goNext">
+  <div class="flex justify-center w-[100vw] h-[100vh]" @click="goNext">
   <h1 class="font-bold text-6xl">情绪漂流瓶</h1>
     <p class="absolute font-bold text-5xl top-[100px]">Click to open it</p>
     <Motion
