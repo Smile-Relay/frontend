@@ -11,6 +11,12 @@ const goNext = async () => {
 
 
 <template>
+  <button
+      class="z-99999999999999 px-6 py-2 rounded-lg font-medium transition-colors duration-200 bg-blue-500 text-white absolute left-0"
+      @click="router.push('/search')"
+  >
+    找找自己的
+  </button>
   <div class="flex justify-center w-[100vw] h-[100vh]" @click="goNext">
   <h1 class="font-bold text-6xl">情绪漂流瓶</h1>
     <p class="absolute font-bold text-5xl top-[100px]">Click to open it</p>
