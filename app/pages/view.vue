@@ -14,7 +14,11 @@ const { refresh_timer, clear_timer } = useBackHome(router, 20000)
 const get_new = async ()=>{
   refresh_timer()
   const random_id = await fetch("http://localhost:5001/random_id")
-  id.value = await random_id.text()
+  id.value = null
+  if (random_id.status === 200){
+    id.value = await random_id.text()
+    return;
+  }
   const bottle_response = await fetch(`http://localhost:5001/get_bottle/${id.value}`)
   const bottle = await bottle_response.json()
   passage.value = bottle.passage
