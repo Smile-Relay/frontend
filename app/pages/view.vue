@@ -33,9 +33,11 @@ const get_new = async ()=>{
 onMounted( async ()=>{
   if (!id.value) {
     const random_id = await fetch("http://localhost:5001/random_id")
-    if (random_id.status === 200){
-      id.value = await random_id.text()
+    if (random_id.status !== 200){
+      id.value = null;
+      return;
     }
+    id.value = await random_id.text()
   }
   const bottle_response = await fetch(`http://localhost:5001/get_bottle/${id.value}`)
   if (bottle_response.status != 200) {
