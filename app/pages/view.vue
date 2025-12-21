@@ -9,7 +9,7 @@ const img_url = ref("")
 const flowers = ref(0)
 const likes = ref(0)
 const hugs = ref(0)
-const { refresh_timer, clear_timer } = useBackHome(router, 20000)
+const { refresh_timer } = useBackHome(router, 20000)
 
 const get_new = async ()=>{
   refresh_timer()

@@ -8,7 +8,7 @@ const vocabularies = await useVocabularies()
 const adjectives = vocabularies.adjectives
 const nouns = vocabularies.nouns
 const router = useRouter()
-const { refresh_timer, clear_timer } = useBackHome(router, 30000)
+const { refresh_timer } = useBackHome(router, 30000)
 
 const selectedAdjectiveIndex = ref<number | null>(null)
 const selectedNounIndex = ref<number | null>(null)

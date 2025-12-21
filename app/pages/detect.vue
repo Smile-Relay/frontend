@@ -156,7 +156,7 @@ const handleLeaveSelection = async (selection: string)=>{
   await router.push("/view")
 }
 
-const { refresh_timer, clear_timer } = useBackHome(router, 20000);
+const { refresh_timer } = useBackHome(router, 20000);
 
 onMounted(()=>{
   setTimeout(detect, 500)

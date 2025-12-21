@@ -13,6 +13,7 @@ export const useBackHome = (router: Router, timeout: number) => {
     const clear_timer = () => {
         if (timeout_id !== null) {
             clearTimeout(timeout_id)
+            timeout_id = null
         }
     }
     refresh_timer()
