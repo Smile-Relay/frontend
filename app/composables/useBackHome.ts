@@ -16,5 +16,6 @@ export const useBackHome = (router: Router, timeout: number) => {
         }
     }
     refresh_timer()
+    onUnmounted(clear_timer)
     return { refresh_timer, clear_timer }
 }

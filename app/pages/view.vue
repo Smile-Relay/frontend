@@ -58,9 +58,6 @@ const handleAction = async (action: string) => {
   refresh_timer()
   await fetch(`http://localhost:5001/comment/${id.value}?type=${action}`)
 }
-onUnmounted(() => {
-  clear_timer()
-})
 </script>
 
 <template>

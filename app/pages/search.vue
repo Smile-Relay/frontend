@@ -23,11 +23,6 @@ const nextStep = async () => {
   console.log(id)
   await router.push(`/view?id=${id}`)
 }
-
-onUnmounted(()=>{
-  clear_timer()
-}
-)
 </script>
 
 <template>

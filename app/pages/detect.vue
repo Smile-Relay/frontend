@@ -164,7 +164,6 @@ onMounted(()=>{
 
 onUnmounted(() => {
   isActive.value = false;
-  clear_timer()
 })
 
 </script>
