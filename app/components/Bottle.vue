@@ -27,9 +27,9 @@ defineExpose<{
 </script>
 
 <template>
-  <div :class="props.img_url ? 'max-w-[400px]' : ''" class="mx-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+  <div :class="props.img_url ? 'max-w-[700px]' : ''" class="mx-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
     <img v-if="props.img_url" :src="props.img_url"
-         class="w-[400px] h-[400px] mb-[24px] rounded-2xl"
+         class="w-[700px] h-[700px] mb-[24px] rounded-2xl"
     />
     <span
         class="px-4 py-2 rounded-lg border mr-[24px]

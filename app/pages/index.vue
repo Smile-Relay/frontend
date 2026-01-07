@@ -12,7 +12,7 @@ const goNext = async () => {
 
 <template>
   <button
-      class="z-99999999999999 px-6 py-2 rounded-lg font-medium transition-colors duration-200 bg-blue-500 text-white absolute left-0"
+      class="z-99999999999999 px-6 py-2 rounded-lg font-medium transition-colors duration-200 text-2xl bg-blue-500 text-white absolute left-0"
       @click="router.push('/search')"
   >
     找找自己的

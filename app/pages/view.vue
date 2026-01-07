@@ -75,8 +75,8 @@ const handleAction = async (action: string) => {
     </div>
 
     <div v-show="id" class="mt-6 flex gap-4">
-      <button @click="router.push('/')" class="px-4 py-2 bg-gray-500 text-white rounded-lg">离开</button>
-      <button @click="get_new" class="px-4 py-2 bg-blue-500 text-white rounded-lg">换一个</button>
+      <button @click="router.push('/')" class="px-6 py-2 bg-gray-500 text-white rounded-lg text-2xl">离开</button>
+      <button @click="get_new" class="px-4 py-2 bg-blue-500 text-white rounded-lg text-2xl">换一个</button>
     </div>
     <div v-show="!id">
       <p class="text-3xl text-amber-50">暂时没有已扔出的漂流瓶</p>
