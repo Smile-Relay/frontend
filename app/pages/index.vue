@@ -21,7 +21,7 @@ const goNext = async () => {
   <h1 class="font-bold text-6xl">情绪漂流瓶</h1>
     <p class="absolute font-bold text-5xl top-[100px]">Click to open it</p>
     <Motion
-        class="absolute w-[200%] bottom-0"
+        class="absolute w-[400%] bottom-0"
         :animate="{ y: [50, -50, 50], x: [-40, 0, 40]}"
         :transition="{ duration: 3, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
     >
@@ -42,7 +42,7 @@ const goNext = async () => {
       <img class="h-[400px]" src="/jar.png">
     </Motion>
     <Motion
-        class="absolute w-[200%] bottom-0"
+        class="absolute w-[400%] bottom-0"
         :animate="{ y: [150, 200, 150], x: [20, 0, -20]}"
         :transition="{ duration: 3, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
     >
