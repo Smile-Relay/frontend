@@ -33,29 +33,29 @@ export class T2I {
             throw new Error('Image generation failed', generate_request);
         }
         const task_id = generate_request.output.task_id;
-         while (true) {
-             const task_status = await (await fetch(`${this.url}/tasks/${task_id}`, {
+        while (true) {
+            const task_status = await (await fetch(`${this.url}/tasks/${task_id}`, {
                 headers: {
                     'Authorization': `Bearer ${this.api_key}`
                 }
-             })).json()
-             if (!task_status.hasOwnProperty('output')) {
-                 throw new Error('Image generation failed', task_status);
-             }
-             if (task_status.output.task_status === "RUNNING") {
-                 await new Promise((resolve) =>
-                     {
-                         setTimeout(resolve, 500)
-                     }
-                 );
-                 continue;
-             }
-             if (task_status.output.task_status === 'SUCCEEDED') {
-                 return task_status.output.results[0].url;
-             }
-             if (task_status.output.task_status === 'FAILED') {
-                 throw new Error('Image generation failed',task_status);
-             }
+            })).json()
+            if (!task_status.hasOwnProperty('output')) {
+                throw new Error('Image generation failed', task_status);
+            }
+            if (task_status.output.task_status === "RUNNING") {
+                await new Promise((resolve) =>
+                    {
+                        setTimeout(resolve, 500)
+                    }
+                    );
+                continue;
+            }
+            if (task_status.output.task_status === 'SUCCEEDED') {
+                return task_status.output.results[0].url;
+            }
+            if (task_status.output.task_status === 'FAILED') {
+                throw new Error('Image generation failed',task_status);
+            }
         }
     }
     private async generate_new(prompt: string) {
