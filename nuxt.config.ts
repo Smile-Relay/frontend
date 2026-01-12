@@ -4,9 +4,18 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
     vite: {
-        plugins: [
-            tailwindcss(),
-        ],
+      server: {
+        proxy: {
+          "/dashscope": {
+            target: "https://dashscope.aliyuncs.com",
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/dashscope/, ""),
+          },
+        },
+      },
+      plugins: [
+          tailwindcss(),
+      ],
     },
     css: ['./app/assets/css/main.css'],
   modules: [
