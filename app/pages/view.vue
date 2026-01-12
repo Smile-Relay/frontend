@@ -9,7 +9,7 @@ const img_url = ref("")
 const flowers = ref(0)
 const likes = ref(0)
 const hugs = ref(0)
-const { refresh_timer } = useBackHome(router, 20000)
+const { refresh_timer } = useBackHome(router, 60000)
 
 const get_new = async ()=>{
   refresh_timer()
@@ -61,7 +61,7 @@ const handleAction = async (action: string) => {
 </script>
 
 <template>
-  <div class="w-full h-[100vh] flex flex-col justify-center items-center">
+  <div class="w-full h-screen flex flex-col justify-center items-center">
     <Bottle
         v-if="id"
         :feeling="feeling"

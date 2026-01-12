@@ -17,7 +17,7 @@ const goNext = async () => {
   >
     找找自己的
   </button>
-  <div class="flex justify-center w-[100vw] h-[100vh]" @click="goNext">
+  <div class="flex justify-center w-screen h-screen" @click="goNext">
   <h1 class="font-bold text-6xl">情绪漂流瓶</h1>
     <p class="absolute font-bold text-5xl top-[100px]">Click to open it</p>
     <Motion
@@ -32,14 +32,14 @@ const goNext = async () => {
         :animate="{ y: [-200, -150, -200], x: [-20, 0, 20] }"
         :transition="{ duration: 3, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
     >
-      <img class="h-[200px]" src="/scroll.png">
+      <img alt="📜" class="h-[200px] text-[200px]" src="/scroll.png">
     </Motion>
     <Motion
         class="absolute bottom-0"
         :animate="{ y: [-200, -150, -200], x: [-20, 0, 20] }"
         :transition="{ duration: 3, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
     >
-      <img class="h-[400px]" src="/jar.png">
+      <img alt="🫙" class="h-[400px] text-[400px]" src="/jar.png">
     </Motion>
     <Motion
         class="absolute w-[200%] bottom-0"

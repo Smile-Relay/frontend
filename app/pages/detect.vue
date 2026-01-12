@@ -156,7 +156,7 @@ const handleLeaveSelection = async (selection: string)=>{
   await router.push("/view")
 }
 
-const { refresh_timer } = useBackHome(router, 20000);
+const { refresh_timer } = useBackHome(router, 60000);
 
 onMounted(()=>{
   setTimeout(detect, 500)
@@ -170,7 +170,7 @@ onUnmounted(() => {
 
 <template>
   <p ref="tipText" class="fixed w-full text-center text-5xl mt-10 text-gray-50">看着我, 几秒就好</p>
-  <div class="w-full h-[100vh] center flex items-center justify-center">
+  <div class="w-full h-screen center flex items-center justify-center">
     <MotionPresence>
       <Motion
       v-show="isActive"
@@ -247,7 +247,7 @@ onUnmounted(() => {
           ease: 'easeInOut'
         }"
     >
-      <bottle :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
+      <bottle :img_url="null" :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
       <p class="text-2xl text-amber-50">你要扔出它吗</p>
       <EmotionOptions @select="handleThrowSelection" :options="['扔出', '不扔出']"></EmotionOptions>
     </Motion>

@@ -8,7 +8,7 @@ const vocabularies = await useVocabularies()
 const adjectives = vocabularies.adjectives
 const nouns = vocabularies.nouns
 const router = useRouter()
-const { refresh_timer } = useBackHome(router, 30000)
+const { refresh_timer } = useBackHome(router, 60000)
 
 const selectedAdjectiveIndex = ref<number | null>(null)
 const selectedNounIndex = ref<number | null>(null)
@@ -26,7 +26,7 @@ const nextStep = async () => {
 </script>
 
 <template>
-  <div class="flex h-[100vh] w-[100vw] pb-28">
+  <div class="flex h-screen w-screen pb-28">
     <div class="w-1/2 p-2 grid grid-cols-2 gap-2">
       <h1 class="w-full">形容词</h1>
       <div />

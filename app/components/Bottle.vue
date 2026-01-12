@@ -5,7 +5,7 @@ const props = defineProps<{
   passage: string,
   emotion: string,
   feeling: string,
-  img_url: string
+  img_url: string | null
 }>()
 
 const passageRef = computed(() => props.passage)
@@ -28,11 +28,11 @@ defineExpose<{
 
 <template>
   <div :class="props.img_url ? 'max-w-[700px]' : ''" class="mx-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-    <img v-if="props.img_url" :src="props.img_url"
-         class="w-[700px] h-[700px] mb-[24px] rounded-2xl"
+    <img alt="N/A" v-if="props.img_url" :src="props.img_url"
+         class="w-[700px] h-[700px] mb-6 rounded-2xl"
     />
     <span
-        class="px-4 py-2 rounded-lg border mr-[24px]
+        class="px-4 py-2 rounded-lg border mr-6
              bg-white text-gray-700 border-gray-300"
     >
       {{ props.emotion }}
@@ -43,7 +43,7 @@ defineExpose<{
     >
       {{ props.feeling }}
     </span>
-    <p class="mt-[24px] text-xl leading-relaxed text-gray-700">
+    <p class="mt-6 text-xl leading-relaxed text-gray-700">
       {{ props.passage }}
     </p>
   </div>
