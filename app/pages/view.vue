@@ -64,6 +64,7 @@ const handleAction = async (action: string) => {
   <div class="w-full h-screen flex flex-col justify-center items-center">
     <Bottle
         v-if="id"
+        :preview="false"
         :feeling="feeling"
         :img_url="img_url"
         :passage="passage"

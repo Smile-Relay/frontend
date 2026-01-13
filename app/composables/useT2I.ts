@@ -10,52 +10,41 @@ export class T2I {
     }
 
     async generate(prompt: string, image_url: string) {
-        const generate_request = await (await fetch(`${this.url}/services/aigc/image2image/image-synthesis`, {
+        const generate_request = await (await fetch(`${this.url}/services/aigc/multimodal-generation/generation`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.api_key}`,
-                'X-DashScope-Async': 'enable'
+                'Authorization': `Bearer ${this.api_key}`
             },
             body: JSON.stringify({
                 model: this.model,
                 input: {
-                    function: 'control_cartoon_feature',
-                    base_image_url: image_url,
-                    prompt: prompt
+                    messages: [
+                        {
+                            role: "user",
+                            content: [
+                                {
+                                    text: prompt
+                                },
+                                {
+                                    image: image_url
+                                }
+                            ]
+                        }
+                    ]
+                },
+                parameters: {
+                    n: 1,
+                    "size": "768*768"
                 }
             })
         })).json();
         if (!generate_request.hasOwnProperty('output')) {
             throw new Error('Image generation failed', generate_request);
         }
-        const task_id = generate_request.output.task_id;
-        while (true) {
-            const task_status = await (await fetch(`${this.url}/tasks/${task_id}`, {
-                headers: {
-                    'Authorization': `Bearer ${this.api_key}`
-                }
-            })).json()
-            if (!task_status.hasOwnProperty('output')) {
-                throw new Error('Image generation failed', task_status);
-            }
-            if (task_status.output.task_status === "RUNNING") {
-                await new Promise((resolve) =>
-                    {
-                        setTimeout(resolve, 500)
-                    }
-                );
-                continue;
-            }
-            if (task_status.output.task_status === 'SUCCEEDED') {
-                return task_status.output.results[0].url;
-            }
-            if (task_status.output.task_status === 'FAILED') {
-                throw new Error('Image generation failed',task_status);
-            }
-        }
+        return generate_request.output.choices[0].message.content[0].image;
     }
 }
 export const useT2I = () => {
-    return new T2I("/dashscope/api/v1", "API_KEY_REMOVED", "wanx2.1-imageedit");
+    return new T2I("/dashscope/api/v1", "API_KEY_REMOVED", "wan2.6-image");
 }

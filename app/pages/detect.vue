@@ -6,14 +6,13 @@ import { useLLM, Message } from '~/composables/useLLM'
 import { useBackHome } from "~/composables/useBackHome";
 import { useT2I } from "~/composables/useT2I";
 import {useGenderImage} from "~/composables/useGenderImage";
-import {tr} from "@nuxt/ui/locale";
 
 const tipText = ref<null|HTMLParagraphElement>(null);
 const text = ref<string>("")
 const isActive = ref(true);
 const repeat = ref(Infinity)
 const options = ref<any[]>([])
-const feelingOptions = ref(["想放假✈️", "好饿啊🍔", "想家🏠", "🍀求锦鲤", "求灵感💡", "🏫上岸!"])
+const feelingOptions = ref(["想放假✈️", "好饿啊🍔", "想家🏠", "🍀求锦鲤", "😆元气满满", "求灵感💡", "🏫上岸!"])
 const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
@@ -85,7 +84,7 @@ const getHandleSection = (probabilities: Prediction) => {
     if (!tipText.value) return;
     refresh_timer()
     tipText.value.textContent = "好的, 让我想想🤔";
-    gender.value = probabilities.Gender;
+    gender.value = probabilities.Gender || 0;
     delete probabilities.Gender;
     const response = await llm.completions(
         [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己现在的状态为${selection}, 生成一段20-30字的没有人称的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态, 只需要这段话就好,不要有多余的文字或符号`) ],
@@ -96,7 +95,7 @@ const getHandleSection = (probabilities: Prediction) => {
     if (!reader) return
     if (!tipText.value)return;
     tipText.value.textContent = "我觉得这是你现在的感受";
-    setTimeout(()=>{displayText.value = true;}, 500)
+    setTimeout(()=>{displayText.value = true;}, 550)
     while (true) {
       const { value, done } = await reader.read()
       if (done) break
@@ -128,7 +127,8 @@ const handleFeelingSelection = async (selection: string)=>{
   isActive.value = true
   repeat.value = Infinity;
   tipText.value.textContent = "正在生成专属于你的情绪漂流瓶🫙"
-  img_url.value = await t2i.generate(`想法: ${feeling.value}, 将人物的表情改为符合以下描述: ${text.value}`, useGenderImage(gender.value))
+  img_url.value = await t2i.generate(`将人物的表情和动作和背景改为符合以下描述: ${text.value}, 结合想法: ${feeling.value}`, useGenderImage(gender.value) || "")
+  refresh_timer()
   isActive.value = false
   repeat.value = 0;
   tipText.value.textContent = "这是你的情绪漂流瓶🫙"
@@ -228,7 +228,7 @@ onUnmounted(() => {
         <div
             v-show="displayFeelings">
           <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的感受?</p>
-          <EmotionOptions @select="handleFeelingSelection" :options="feelingOptions" />
+          <EmotionOptions class="text-2xl" @select="handleFeelingSelection" :options="feelingOptions" />
         </div>
       </Motion>
     </MotionPresence>
@@ -250,7 +250,7 @@ onUnmounted(() => {
           }"
       >
         <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的情绪?</p>
-        <EmotionOptions @select="handleSelection" :options="options" />
+        <EmotionOptions class="text-4xl" @select="handleSelection" :options="options" />
       </Motion>
     </MotionPresence>
     <Motion
@@ -268,7 +268,7 @@ onUnmounted(() => {
     >
       <bottle :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
       <p class="text-2xl text-amber-50">你要扔出它吗</p>
-      <EmotionOptions @select="handleThrowSelection" :options="['扔出', '不扔出']"></EmotionOptions>
+      <EmotionOptions class="text-4xl" @select="handleThrowSelection" :options="['扔出', '不扔出']" />
     </Motion>
     <MotionPresence>
       <Motion
@@ -290,7 +290,7 @@ onUnmounted(() => {
         <bottle :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
         <p class="text-3xl text-amber-50">你的情绪漂流瓶已扔出, 记住你的瓶子id: </p>
         <p class="w-full text-center text-8xl text-amber-50"><strong>{{phrase}}</strong></p>
-        <EmotionOptions @select="handleLeaveSelection" :options="[ '看看别人的', '离开' ]" />
+        <EmotionOptions class="text-4xl" @select="handleLeaveSelection" :options="[ '看看别人的', '离开' ]" />
       </Motion>
     </MotionPresence>
   </div>

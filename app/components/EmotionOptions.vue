@@ -20,7 +20,7 @@ function handleClick(value: string) {
         v-for="item in props.options"
         :key="item"
         @click="handleClick(item)"
-        class="text-4xl px-4 py-2 rounded-lg border font-medium
+        class="px-4 py-2 rounded-lg border font-medium
              bg-white text-gray-700 border-gray-300
              hover:bg-blue-50 hover:border-blue-400
              active:scale-95 transition-all"
