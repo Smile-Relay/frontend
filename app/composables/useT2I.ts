@@ -2,15 +2,15 @@ export class T2I {
     url: string;
     api_key: string;
     model: string;
-    minimum_size: string;
+
     constructor(url: string, api_key: string, model: string) {
         this.url = url;
         this.api_key = api_key;
         this.model = model;
-        this.minimum_size = ['wan2.6-t2i', 'wan2.5-t2i-preview'].includes(model)? "768*768" : "512*512";
     }
-    private async generate_old(prompt: string) {
-        const generate_request = await (await fetch(`${this.url}/services/aigc/text2image/image-synthesis`, {
+
+    async generate(prompt: string, image_url: string) {
+        const generate_request = await (await fetch(`${this.url}/services/aigc/image2image/image-synthesis`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -20,12 +20,9 @@ export class T2I {
             body: JSON.stringify({
                 model: this.model,
                 input: {
+                    function: 'control_cartoon_feature',
+                    base_image_url: image_url,
                     prompt: prompt
-                },
-                parameters: {
-                    size: this.minimum_size,
-                    prompt_extend: false,
-                    n: 1
                 }
             })
         })).json();
@@ -47,7 +44,7 @@ export class T2I {
                     {
                         setTimeout(resolve, 500)
                     }
-                    );
+                );
                 continue;
             }
             if (task_status.output.task_status === 'SUCCEEDED') {
@@ -58,47 +55,7 @@ export class T2I {
             }
         }
     }
-    private async generate_new(prompt: string) {
-        const generate_request = await (await fetch(`${this.url}/services/aigc/multimodal-generation/generation`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.api_key}`
-            },
-            body: JSON.stringify({
-                model: this.model,
-                input: {
-                    messages: [
-                        {
-                            role: "user",
-                            content: [
-                                {
-                                    text: prompt
-                                }
-                            ]
-                        }
-                    ]
-                },
-                parameters: {
-                    size: this.minimum_size,
-                    prompt_extend: false,
-                    n: 1
-                }
-            })
-        })).json();
-        if (!generate_request.hasOwnProperty('output')) {
-            throw new Error('Image generation failed', generate_request);
-        }
-        return generate_request.output.choices[0].message.content[0].image;
-    }
-
-    async generate(prompt: string) {
-        if (this.model === 'wan2.6-t2i') {
-            return await this.generate_new(prompt);
-        }
-        return await this.generate_old(prompt);
-    }
 }
 export const useT2I = () => {
-    return new T2I("/dashscope/api/v1", "API_KEY_REMOVED", "wan2.2-t2i-flash");
+    return new T2I("/dashscope/api/v1", "API_KEY_REMOVED", "wanx2.1-imageedit");
 }

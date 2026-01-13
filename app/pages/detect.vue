@@ -4,6 +4,9 @@ import {onMounted, onUnmounted, ref} from 'vue'
 import { useRouter } from "#vue-router";
 import { useLLM, Message } from '~/composables/useLLM'
 import { useBackHome } from "~/composables/useBackHome";
+import { useT2I } from "~/composables/useT2I";
+import {useGenderImage} from "~/composables/useGenderImage";
+import {tr} from "@nuxt/ui/locale";
 
 const tipText = ref<null|HTMLParagraphElement>(null);
 const text = ref<string>("")
@@ -18,6 +21,9 @@ const displayThrow = ref(false)
 const displayEnd = ref(false)
 const handleSelection = ref(async (value: string)=>{console.log(value)})
 const llm = useLLM()
+const t2i = useT2I()
+const img_url = ref<null|string>(null)
+const gender = ref(0);
 const emotion = ref("")
 const feeling = ref("")
 const phrase = ref("")
@@ -30,7 +36,8 @@ type Prediction = {
   Happy: number,
   Neutral: number,
   Sad: number,
-  Surprise: number
+  Surprise: number,
+  Gender?: number
 }
 
 const detect = async ()=>{
@@ -78,6 +85,8 @@ const getHandleSection = (probabilities: Prediction) => {
     if (!tipText.value) return;
     refresh_timer()
     tipText.value.textContent = "好的, 让我想想🤔";
+    gender.value = probabilities.Gender;
+    delete probabilities.Gender;
     const response = await llm.completions(
         [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己现在的状态为${selection}, 生成一段20-30字的没有人称的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态, 只需要这段话就好,不要有多余的文字或符号`) ],
         true
@@ -116,8 +125,17 @@ const handleFeelingSelection = async (selection: string)=>{
   displayFeelings.value = false
   console.log(selection)
   feeling.value = selection
-  displayThrow.value = true
+  isActive.value = true
+  repeat.value = Infinity;
+  tipText.value.textContent = "正在生成专属于你的情绪漂流瓶🫙"
+  img_url.value = await t2i.generate(`想法: ${feeling.value}, 将人物的表情改为符合以下描述: ${text.value}`, useGenderImage(gender.value))
+  isActive.value = false
+  repeat.value = 0;
   tipText.value.textContent = "这是你的情绪漂流瓶🫙"
+  setTimeout(() => {
+    displayThrow.value = true
+  }, 510)
+
 }
 
 const handleThrowSelection = async (selection: string)=>{
@@ -139,6 +157,7 @@ const handleThrowSelection = async (selection: string)=>{
       emotion: emotion.value,
       feeling: feeling.value,
       passage: text.value,
+      img_url: img_url.value,
       id: vocabulary.id
     })
   })
@@ -247,7 +266,7 @@ onUnmounted(() => {
           ease: 'easeInOut'
         }"
     >
-      <bottle :img_url="null" :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
+      <bottle :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
       <p class="text-2xl text-amber-50">你要扔出它吗</p>
       <EmotionOptions @select="handleThrowSelection" :options="['扔出', '不扔出']"></EmotionOptions>
     </Motion>
@@ -268,7 +287,7 @@ onUnmounted(() => {
             opacity: 0
           }"
       >
-        <bottle :img_url="null" :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
+        <bottle :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
         <p class="text-3xl text-amber-50">你的情绪漂流瓶已扔出, 记住你的瓶子id: </p>
         <p class="w-full text-center text-8xl text-amber-50"><strong>{{phrase}}</strong></p>
         <EmotionOptions @select="handleLeaveSelection" :options="[ '看看别人的', '离开' ]" />
