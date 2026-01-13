@@ -95,7 +95,7 @@ const getHandleSection = (probabilities: Prediction) => {
     if (!reader) return
     if (!tipText.value)return;
     tipText.value.textContent = "我觉得这是你现在的感受";
-    setTimeout(()=>{displayText.value = true;}, 550)
+    setTimeout(()=>{displayText.value = true;}, 1500)
     while (true) {
       const { value, done } = await reader.read()
       if (done) break
@@ -134,7 +134,7 @@ const handleFeelingSelection = async (selection: string)=>{
   tipText.value.textContent = "这是你的情绪漂流瓶🫙"
   setTimeout(() => {
     displayThrow.value = true
-  }, 510)
+  }, 1500)
 
 }
 
