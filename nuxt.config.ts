@@ -3,21 +3,17 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-    vite: {
-      server: {
-        proxy: {
-          "/dashscope": {
-            target: "https://dashscope.aliyuncs.com",
-            changeOrigin: true,
-            rewrite: (path) => path.replace(/^\/dashscope/, ""),
-          },
-        },
-      },
-      plugins: [
-          tailwindcss(),
-      ],
-    },
-    css: ['./app/assets/css/main.css'],
+  routeRules: {
+    '/dashscope/**': {
+      proxy: 'https://dashscope.aliyuncs.com/**'
+    }
+  },
+  vite: {
+    plugins: [
+        tailwindcss(),
+    ],
+  },
+  css: ['./app/assets/css/main.css'],
   modules: [
     '@nuxt/content',
     '@nuxt/eslint',
