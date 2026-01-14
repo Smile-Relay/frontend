@@ -5,6 +5,7 @@ html {
     background: #78c9ff;
     overflow: hidden;
     margin: 0;
+    user-select: none;
 }
 
 body.bg-sky {

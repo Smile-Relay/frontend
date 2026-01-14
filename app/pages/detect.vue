@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Motion, MotionPresence} from "@oku-ui/motion";
+import { Motion, MotionPresence } from "@oku-ui/motion";
 import {onMounted, onUnmounted, ref} from 'vue'
 import { useRouter } from "#vue-router";
 import { useLLM, Message } from '~/composables/useLLM'
@@ -163,16 +163,7 @@ const handleThrowSelection = async (selection: string)=>{
   })
   await response.text()
   displayThrow.value = false
-  displayEnd.value = true
-}
-
-const handleLeaveSelection = async (selection: string)=>{
-  refresh_timer()
-  if (selection === "离开"){
-    await router.push("/")
-    return
-  }
-  await router.push("/view")
+  await router.push(`/drop?phrase=${phrase.value}`)
 }
 
 const { refresh_timer } = useBackHome(router, 60000);
@@ -270,29 +261,6 @@ onUnmounted(() => {
       <p class="text-2xl text-amber-50">你要扔出它吗</p>
       <EmotionOptions class="text-4xl" @select="handleThrowSelection" :options="['扔出', '不扔出']" />
     </Motion>
-    <MotionPresence>
-      <Motion
-          v-show="displayEnd"
-          :animate="{
-            opacity: 1
-          }"
-          :initial="{
-            opacity: 0
-          }"
-          :transition="{
-            duration: 1.5,
-            ease: 'easeInOut'
-          }"
-          :exit="{
-            opacity: 0
-          }"
-      >
-        <bottle :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
-        <p class="text-3xl text-amber-50">你的情绪漂流瓶已扔出, 记住你的瓶子id: </p>
-        <p class="w-full text-center text-8xl text-amber-50"><strong>{{phrase}}</strong></p>
-        <EmotionOptions class="text-4xl" @select="handleLeaveSelection" :options="[ '看看别人的', '离开' ]" />
-      </Motion>
-    </MotionPresence>
   </div>
 </template>
 
