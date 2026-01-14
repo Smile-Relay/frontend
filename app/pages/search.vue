@@ -4,6 +4,13 @@ import { useVocabularies } from "~/composables/useVocabularies";
 import { useRouter } from "vue-router";
 import { useBackHome } from "~/composables/useBackHome";
 
+useHead({
+      bodyAttrs: {
+        class: 'bg-sky'
+      }
+    }
+)
+
 const vocabularies = await useVocabularies()
 const adjectives = vocabularies.adjectives
 const nouns = vocabularies.nouns

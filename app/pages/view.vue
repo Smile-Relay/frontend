@@ -11,6 +11,13 @@ const likes = ref(0)
 const hugs = ref(0)
 const { refresh_timer } = useBackHome(router, 60000)
 
+useHead({
+      bodyAttrs: {
+        class: 'bg-sky'
+      }
+    }
+)
+
 const get_new = async ()=>{
   refresh_timer()
   const random_id = await fetch("http://localhost:5001/random_id")
