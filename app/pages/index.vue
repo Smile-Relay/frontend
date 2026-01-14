@@ -51,4 +51,9 @@ const goNext = async () => {
   </div>
 </template>
 <style>
+html{
+  background: url("/bg.jpeg");
+  background-size: 100vw 100vh;
+  overflow: hidden;
+}
 </style>
