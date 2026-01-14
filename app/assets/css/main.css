@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 @import "tailwindcss";
 
-body{
+html {
     background: #78c9ff;
     overflow: hidden;
+    margin: 0;
 }
-body.bg-sky{
-    background: url("/bg.jpeg");
-    background-size: 100vw 100vh;
-    overflow: hidden;
+
+body.bg-sky {
+    background-image: url('/bg.jpeg');
+    background-size: 100% 100%;
 }
 
 body {
+    margin: 0;
     font-family: 'Roboto', sans-serif;
 }
