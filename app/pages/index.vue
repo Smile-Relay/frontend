@@ -2,6 +2,13 @@
 import { Motion } from "@oku-ui/motion";
 import { useRouter } from "vue-router";
 
+useHead({
+  bodyAttrs: {
+      class: 'bg-sky'
+    }
+  }
+)
+
 const router = useRouter();
 
 const goNext = async () => {
@@ -51,9 +58,4 @@ const goNext = async () => {
   </div>
 </template>
 <style>
-html{
-  background: url("/bg.jpeg");
-  background-size: 100vw 100vh;
-  overflow: hidden;
-}
 </style>
