@@ -11,13 +11,12 @@ const tipText = ref<null|HTMLParagraphElement>(null);
 const text = ref<string>("")
 const isActive = ref(true);
 const repeat = ref(Infinity)
-const options = ref<any[]>([])
+const options = ref<string[]>([])
 const feelingOptions = ref(["想放假✈️", "好饿啊🍔", "想家🏠", "🍀求锦鲤", "😆元气满满", "求灵感💡", "🏫上岸!"])
 const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
 const displayThrow = ref(false)
-const displayEnd = ref(false)
 const handleSelection = ref(async (value: string)=>{console.log(value)})
 const llm = useLLM()
 const t2i = useT2I()
@@ -110,7 +109,9 @@ const getHandleSection = (probabilities: Prediction) => {
           const content = data.choices?.[0]?.delta?.content
           if (content) text.value += content
           console.log(content)
-        } catch {}
+        } catch {
+          router.push("/")
+        }
       })
     }
     displayFeelings.value = true;
@@ -179,88 +180,90 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <p ref="tipText" class="fixed w-full text-center text-5xl mt-10 text-gray-50">看着我, 几秒就好</p>
-  <div class="w-full h-screen center flex items-center justify-center">
-    <MotionPresence>
-      <Motion
-      v-show="isActive"
-      class="rounded-full origin-center w-[200px] h-[200px] bg-blue-500"
-      :animate="{
-        scale: [1, 1.5, 1],
-        boxShadow: ['none', '0 0 15px 15px #78c9ff inset', 'none']
-      }"
-      :transition="{
-        duration: 1.5,
-        ease: 'easeInOut',
-        repeat: repeat,
-        repeatDelay: 1,
-      }"
-      :exit="{
-        opacity: 0,
-        scale: 0
-      }"
-      />
-    </MotionPresence>
-    <MotionPresence>
-      <Motion
-          :animate="{
-            opacity: 1
-          }"
-          :initial="{
-            opacity: 0
-          }"
-          :transition="{
-            duration: 1.5,
-            ease: 'easeInOut'
-          }"
-          class="content-center"
-      >
-        <TextBlock v-show="displayText" :text="text" />
-        <div
-            v-show="displayFeelings">
-          <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的感受?</p>
-          <EmotionOptions class="text-2xl" @select="handleFeelingSelection" :options="feelingOptions" />
-        </div>
-      </Motion>
-    </MotionPresence>
-    <MotionPresence>
-      <Motion
-          v-show="displayOptions"
-          :animate="{
-            opacity: 1
-          }"
-          :initial="{
-            opacity: 0
-          }"
-          :transition="{
-            duration: 1.5,
-            ease: 'easeInOut'
-          }"
-          :exit="{
-            opacity: 0
-          }"
-      >
-        <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的情绪?</p>
-        <EmotionOptions class="text-4xl" @select="handleSelection" :options="options" />
-      </Motion>
-    </MotionPresence>
-    <Motion
-        v-show="displayThrow"
+  <div>
+    <p ref="tipText" class="fixed w-full text-center text-5xl mt-10 text-gray-50">看着我, 几秒就好</p>
+    <div class="w-full h-screen center flex items-center justify-center">
+      <MotionPresence>
+        <Motion
+        v-show="isActive"
+        class="rounded-full origin-center w-[200px] h-[200px] bg-blue-500"
         :animate="{
-          opacity: 1
-        }"
-        :initial="{
-          opacity: 0
+          scale: [1, 1.5, 1],
+          boxShadow: ['none', '0 0 15px 15px #78c9ff inset', 'none']
         }"
         :transition="{
           duration: 1.5,
-          ease: 'easeInOut'
+          ease: 'easeInOut',
+          repeat: repeat,
+          repeatDelay: 1,
         }"
-    >
-      <bottle :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling"></bottle>
-      <p class="text-2xl text-amber-50">你要扔出它吗</p>
-      <EmotionOptions class="text-4xl" @select="handleThrowSelection" :options="['扔出', '不扔出']" />
-    </Motion>
+        :exit="{
+          opacity: 0,
+          scale: 0
+        }"
+        />
+      </MotionPresence>
+      <MotionPresence>
+        <Motion
+            :animate="{
+              opacity: 1
+            }"
+            :initial="{
+              opacity: 0
+            }"
+            :transition="{
+              duration: 1.5,
+              ease: 'easeInOut'
+            }"
+            class="content-center"
+        >
+          <TextBlock v-show="displayText" :text="text" />
+          <div
+              v-show="displayFeelings">
+            <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的感受?</p>
+            <EmotionOptions class="text-2xl" :options="feelingOptions" @select="handleFeelingSelection" />
+          </div>
+        </Motion>
+      </MotionPresence>
+      <MotionPresence>
+        <Motion
+            v-show="displayOptions"
+            :animate="{
+              opacity: 1
+            }"
+            :initial="{
+              opacity: 0
+            }"
+            :transition="{
+              duration: 1.5,
+              ease: 'easeInOut'
+            }"
+            :exit="{
+              opacity: 0
+            }"
+        >
+          <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的情绪?</p>
+          <EmotionOptions class="text-4xl" :options="options" @select="handleSelection" />
+        </Motion>
+      </MotionPresence>
+      <Motion
+          v-show="displayThrow"
+          :animate="{
+            opacity: 1
+          }"
+          :initial="{
+            opacity: 0
+          }"
+          :transition="{
+            duration: 1.5,
+            ease: 'easeInOut'
+          }"
+      >
+        <bottle :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
+        <p class="text-2xl text-amber-50">你要扔出它吗</p>
+        <EmotionOptions class="text-4xl" :options="['扔出', '不扔出']" @select="handleThrowSelection" />
+      </Motion>
+    </div>
   </div>
 </template>
 

@@ -39,7 +39,7 @@ export class T2I {
                 }
             })
         })).json();
-        if (!generate_request.hasOwnProperty('output')) {
+        if (!Object.prototype.hasOwnProperty.call(generate_request, 'output')) {
             throw new Error('Image generation failed', generate_request);
         }
         return generate_request.output.choices[0].message.content[0].image;

@@ -50,18 +50,24 @@ function handleAction(action: 'like' | 'hug' | 'flower') {
 <template>
   <div class="w-[700px] mx-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
     <div class="buttons flex justify-between">
-      <button class="text-4xl btn-like px-4 py-2 bg-pink-400 text-white rounded-2xl flex flex-col items-center"
-              @click="handleAction('like')">
+      <button
+          class="text-4xl btn-like px-4 py-2 bg-pink-400 text-white rounded-2xl flex flex-col items-center"
+          @click="handleAction('like')"
+      >
         喜欢💖
         <span class="mt-1">{{ likeCount }}</span>
       </button>
-      <button class="text-4xl btn-hug px-4 py-2 bg-yellow-400 text-white rounded-2xl flex flex-col items-center"
-              @click="handleAction('hug')">
+      <button
+          class="text-4xl btn-hug px-4 py-2 bg-yellow-400 text-white rounded-2xl flex flex-col items-center"
+          @click="handleAction('hug')"
+      >
         拥抱 🤗
         <span class="mt-1">{{ hugCount }}</span>
       </button>
-      <button class="text-4xl btn-flower px-4 py-2 bg-red-400 text-white rounded-2xl flex flex-col items-center"
-              @click="handleAction('flower')">
+      <button
+          class="text-4xl btn-flower px-4 py-2 bg-red-400 text-white rounded-2xl flex flex-col items-center"
+          @click="handleAction('flower')"
+      >
         送花 🌹
         <span class="mt-1">{{ flowerCount }}</span>
       </button>
