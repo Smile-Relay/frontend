@@ -2,6 +2,9 @@ import type {Router} from "#vue-router";
 import { onUnmounted } from "vue";
 
 export const useBackHome = (router: Router, timeout: number) => {
+    if (import.meta.env.DEV) {
+        return { refresh_timer: () => {}, clear_timer: () => {} };
+    }
     let timeout_id: ReturnType<typeof setTimeout> | null = null;
     const refresh_timer = () => {
         if (timeout_id !== null) {
