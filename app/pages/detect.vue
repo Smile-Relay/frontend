@@ -127,7 +127,7 @@ const handleFeelingSelection = async (selection: string)=>{
   feeling.value = selection
   isActive.value = true
   repeat.value = Infinity;
-  tipText.value.textContent = "正在生成专属于你的情绪漂流瓶🫙"
+  tipText.value.textContent = "情绪图片生成中🫙"
   img_url.value = await t2i.generate(`将人物的表情和动作和背景改为符合以下描述: ${text.value}, 结合想法: ${feeling.value}`, useGenderImage(gender.value) || "")
   refresh_timer()
   isActive.value = false
@@ -220,8 +220,8 @@ onUnmounted(() => {
           <TextBlock v-show="displayText" :text="text" />
           <div
               v-show="displayFeelings">
-            <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的感受?</p>
-            <EmotionOptions class="text-2xl" :options="feelingOptions" @select="handleFeelingSelection" />
+            <p class="text-3xl text-amber-50">你认为以下的哪一个选项更适合你目前的感受?</p>
+            <EmotionOptions :options="feelingOptions" @select="handleFeelingSelection" />
           </div>
         </Motion>
       </MotionPresence>
@@ -242,8 +242,8 @@ onUnmounted(() => {
               opacity: 0
             }"
         >
-          <p class="text-2xl text-amber-50">你认为以下的哪一个选项更适合你目前的情绪?</p>
-          <EmotionOptions class="text-4xl" :options="options" @select="handleSelection" />
+          <p class="text-3xl text-amber-50">你认为以下的哪一个选项更适合你目前的情绪?</p>
+          <EmotionOptions :options="options" @select="handleSelection" />
         </Motion>
       </MotionPresence>
       <Motion
@@ -259,9 +259,9 @@ onUnmounted(() => {
             ease: 'easeInOut'
           }"
       >
-        <BottleView :phrase="null" :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
-        <p class="text-2xl text-amber-50">你要扔出它吗</p>
-        <EmotionOptions class="text-4xl" :options="['扔出', '不扔出']" @select="handleThrowSelection" />
+        <BottleView :phrase="null" :preview="true" :img-url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
+        <p class="text-3xl text-amber-50">你要扔出它吗</p>
+        <EmotionOptions :options="['扔出', '不扔出']" @select="handleThrowSelection" />
       </Motion>
     </div>
   </div>

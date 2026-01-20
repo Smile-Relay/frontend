@@ -5,7 +5,7 @@ const props = defineProps<{
   passage: string,
   emotion: string,
   feeling: string,
-  imgUrl: string,
+  imgUrl: string | null,
   phrase: string | null
   preview: boolean
 }>()

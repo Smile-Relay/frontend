@@ -23,7 +23,7 @@ const goNext = async () => {
         class="z-99999999999999 px-6 py-2 rounded-lg font-medium transition-colors duration-200 text-4xl bg-blue-200 text-cyan-800 absolute bottom-1.5 left-1"
         @click="router.push('/search')"
     >
-      🫙找找自己扔过的
+      🫙找瓶子
     </button>
     <div class="flex justify-center w-screen h-screen" @click="goNext">
       <p class="text-7xl absolute left-20 top-60 rotate-330">❤️</p>

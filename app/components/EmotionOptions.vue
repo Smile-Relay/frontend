@@ -15,14 +15,15 @@ function handleClick(value: string) {
 </script>
 
 <template>
-  <div class="flex gap-3">
+  <div class="flex gap-3 flex-col text-4xl">
     <button
         v-for="item in props.options"
         :key="item"
         class="px-4 py-2 rounded-lg border font-medium
              bg-white text-gray-700 border-gray-300
              hover:bg-blue-50 hover:border-blue-400
-             active:scale-95 transition-all"
+             active:scale-95 transition-all
+             "
         @click="handleClick(item)"
     >
       {{ item }}

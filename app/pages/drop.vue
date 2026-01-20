@@ -39,13 +39,16 @@ const handleLeaveSelection = async (selection: string)=>{
     >
       <img class="w-full" alt="N/A" src="/sky.jpeg">
     </Motion>
-    <div class=" top-[400px] absolute z-999999999 flex justify-center w-screen">
+    <div class=" top-[350px] absolute z-999999999 flex justify-center w-screen">
       <div
           v-show="displayEnd"
-          class="mx-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
-      >
-        <p class="text-4xl">你的情绪漂流瓶已扔出, 记住你的瓶子id: </p>
-        <p class="w-full text-center text-8xl"><strong>{{phrase}}</strong></p>
+          >
+        <div
+            class="mb-3 mt-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+        >
+          <p class="text-4xl">记住你的瓶子id: </p>
+          <p class="w-full text-center text-8xl"><strong>{{phrase}}</strong></p>
+        </div>
         <EmotionOptions class="text-4xl" :options="[ '看看别人的', '离开' ]" @select="handleLeaveSelection" />
       </div>
     </div>
