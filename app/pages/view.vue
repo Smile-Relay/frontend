@@ -6,6 +6,7 @@ const passage = ref("")
 const emotion = ref("")
 const feeling = ref("")
 const img_url = ref("")
+const phrase = ref("")
 const flowers = ref(0)
 const likes = ref(0)
 const hugs = ref(0)
@@ -28,6 +29,8 @@ const get_new = async ()=>{
   id.value = await random_id.text()
   const bottle_response = await fetch(`http://localhost:5001/get_bottle/${id.value}`)
   const bottle = await bottle_response.json()
+  console.log(bottle)
+  phrase.value = usePhrase(bottle.id)
   passage.value = bottle.passage
   emotion.value = bottle.emotion
   feeling.value = bottle.feeling
@@ -52,6 +55,7 @@ onMounted( async ()=>{
     return
   }
   const bottle = await bottle_response.json()
+  phrase.value = usePhrase(bottle.id)
   passage.value = bottle.passage
   emotion.value = bottle.emotion
   feeling.value = bottle.feeling
@@ -69,8 +73,9 @@ const handleAction = async (action: string) => {
 
 <template>
   <div class="w-full h-screen flex flex-col justify-center items-center">
-    <Bottle
+    <BottleView
         v-if="id"
+        :phrase="phrase"
         :preview="false"
         :feeling="feeling"
         :img-url="img_url"
@@ -79,7 +84,7 @@ const handleAction = async (action: string) => {
     />
 
     <div v-show="id" class="mt-6 flex gap-4">
-      <Comments :initial-flower="flowers" :initial-hug="hugs" :initial-like="likes" @action="handleAction" />
+      <CommentOptions :initial-flower="flowers" :initial-hug="hugs" :initial-like="likes" @action="handleAction" />
     </div>
 
     <div v-show="id" class="mt-6 flex gap-4">

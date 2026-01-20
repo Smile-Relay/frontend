@@ -259,7 +259,7 @@ onUnmounted(() => {
             ease: 'easeInOut'
           }"
       >
-        <bottle :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
+        <BottleView :phrase="null" :preview="true" :img_url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
         <p class="text-2xl text-amber-50">你要扔出它吗</p>
         <EmotionOptions class="text-4xl" :options="['扔出', '不扔出']" @select="handleThrowSelection" />
       </Motion>
