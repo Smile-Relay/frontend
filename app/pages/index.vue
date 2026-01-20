@@ -31,7 +31,7 @@ const goNext = async () => {
       <p class="text-9xl absolute right-40 top-35 rotate-10">😯</p>
       <p class="text-8xl absolute left-55 top-35 rotate-350">😜</p>
       <h1 class="absolute font-bold text-7xl top-[300px] text-cyan-900">情绪漂流瓶</h1>
-      <p class="absolute font-bold text-6xl top-[400px] text-cyan-800">Click to open it</p>
+      <p class="absolute font-bold text-6xl top-[400px] text-cyan-800">Click to start</p>
       <Motion
           class="absolute w-[200%] bottom-0"
           :animate="{ y: [100, 25, 100], x: [-40, 0, 40]}"
