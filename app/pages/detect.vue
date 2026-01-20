@@ -181,6 +181,15 @@ onUnmounted(() => {
 
 <template>
   <div>
+    <button
+        class="text-4xl px-4 py-2 rounded-lg border font-medium
+             bg-white text-gray-700 border-gray-300
+             hover:bg-blue-50 hover:border-blue-400
+             active:scale-95 transition-all"
+        @click="router.push('/')"
+    >
+      退出
+    </button>
     <p ref="tipText" class="fixed w-full text-center text-5xl mt-10 text-gray-50">看着我, 几秒就好</p>
     <div class="w-full h-screen center flex items-center justify-center">
       <MotionPresence>
