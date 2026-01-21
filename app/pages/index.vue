@@ -30,6 +30,14 @@ const goNext = async () => {
       <p class="text-8xl absolute right-10 top-60 rotate-30">😄</p>
       <p class="text-9xl absolute right-40 top-35 rotate-10">😯</p>
       <p class="text-8xl absolute left-55 top-35 rotate-350">😜</p>
+      <Motion
+          class="absolute"
+          :animate="{ x: [-250, -200, -250], y: [500, 550, 500]}"
+          :transition="{ duration: 2, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
+      >
+        <img class="rotate-45 top-125" alt="N/A" src="/point_right.png">
+      </Motion>
+
       <h1 class="absolute font-bold text-7xl top-[300px] text-cyan-900">情绪漂流瓶</h1>
       <p class="absolute font-bold text-6xl top-[400px] text-cyan-800">Click to start</p>
       <Motion
