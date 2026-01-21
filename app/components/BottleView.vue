@@ -41,20 +41,14 @@ defineExpose<{
         v-if="props.imgUrl"
         alt="N/A"
         :src="props.imgUrl"
-        :class="!preview ? 'w-[700px] h-[700px] ' : ''" class="mb-6 rounded-2xl"
+        :class="!preview ? 'w-[700px] h-[700px] ' : ''" class="mb-6 rounded-lg"
     >
-    <span
-        class="px-4 py-2 rounded-lg border mr-6 text-xl
-             bg-white text-gray-700 border-gray-300"
-    >
+    <UBadge class="text-xl" color="neutral" variant="outline" >
       {{ props.emotion }}
-    </span>
-    <span
-        class="px-4 py-2 rounded-lg border text-xl
-             bg-white text-gray-700 border-gray-300"
-    >
+    </UBadge>
+    <UBadge class="ml-3 text-xl" color="neutral" variant="outline" >
       {{ props.feeling }}
-    </span>
+    </UBadge>
     <p class="mt-6 text-2xl leading-relaxed text-gray-700">
       {{ props.passage }}
     </p>
