@@ -1,7 +1,7 @@
 @import "tailwindcss";
+@import "@nuxt/ui";
 
 html {
-    background: #78c9ff;
     overflow: hidden;
     margin: 0;
     user-select: none;
@@ -13,6 +13,7 @@ body.bg-sky {
 }
 
 body {
+    background: #78c9ff;
     margin: 0;
     font-family: SimSun, serif;
 }

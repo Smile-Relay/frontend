@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Motion } from "@oku-ui/motion";
 import { useBackHome } from "~/composables/useBackHome";
+import OptionsList from "~/components/OptionsList.vue";
 
 const animate = ref({ y: [-500, -200], x: [-20]})
 const transition = ref({ duration: 3, repeat: 1, repeatType: 'mirror', ease: 'backIn' })
@@ -39,18 +40,17 @@ const handleLeaveSelection = async (selection: string)=>{
     >
       <img class="w-full" alt="N/A" src="/sky.jpeg">
     </Motion>
-    <div class=" top-[350px] absolute z-999999999 flex justify-center w-screen">
-      <div
-          v-show="displayEnd"
-          >
-        <div
-            class="mb-3 mt-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+    <div
+        v-show="displayEnd"
+        class="top-[350px] absolute z-999999999 flex justify-center w-full flex-col "
         >
-          <p class="text-4xl">记住你的瓶子id: </p>
-          <p class="w-full text-center text-8xl"><strong>{{phrase}}</strong></p>
-        </div>
-        <EmotionOptions class="text-4xl" :options="[ '看看别人的', '离开' ]" @select="handleLeaveSelection" />
-      </div>
+      <UCard
+          class="mb-3"
+      >
+        <p class="text-4xl text-gray-900">记住你的瓶子id: </p>
+        <p class="w-full text-center text-8xl  text-gray-900"><strong>{{phrase}}</strong></p>
+      </UCard>
+      <OptionsList :options="[ '看看别人的', '离开' ]" @select="handleLeaveSelection" />
     </div>
     <div class="flex justify-center w-screen h-screen">
       <Motion

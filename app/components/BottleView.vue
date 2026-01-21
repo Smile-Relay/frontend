@@ -35,8 +35,8 @@ defineExpose<{
 </script>
 
 <template>
-  <div :class="!preview ? 'max-w-[700px]' : ''" class="mx-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-    <h1 v-if="!preview" class="text-5xl mb-6" ><strong>{{ props.phrase }}</strong></h1>
+  <UCard :class="!preview ? 'max-w-[700px]' : ''">
+    <h1 v-if="!preview" class="text-gray-900 text-5xl mb-6" ><strong>{{ props.phrase }}</strong></h1>
     <img
         v-if="props.imgUrl"
         alt="N/A"
@@ -58,7 +58,7 @@ defineExpose<{
     <p class="mt-6 text-2xl leading-relaxed text-gray-700">
       {{ props.passage }}
     </p>
-  </div>
+  </UCard>
 </template>
 
 <style scoped>

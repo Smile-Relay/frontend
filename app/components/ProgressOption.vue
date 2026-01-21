@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue'
+
+import {defineEmits, defineProps} from "vue";
 
 const props = defineProps<{
   options: string[]
@@ -16,20 +17,19 @@ function handleClick(value: string) {
 
 <template>
   <div class="flex gap-3 flex-col text-4xl">
-    <button
+    <UButton
         v-for="item in props.options"
         :key="item"
-        class="px-4 py-2 rounded-lg border font-medium
-             bg-white text-gray-700 border-gray-300
-             hover:bg-blue-50 hover:border-blue-400
-             active:scale-95 transition-all
-             "
+        variant="outline"
+        color="neutral"
+        class="text-4xl text-gray-700"
         @click="handleClick(item)"
     >
       {{ item }}
-    </button>
+    </UButton>
   </div>
 </template>
 
 <style scoped>
+
 </style>

@@ -3,6 +3,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  ui: {
+    colorMode: false
+  },
   routeRules: {
     '/dashscope/**': {
       proxy: 'https://dashscope.aliyuncs.com/**'

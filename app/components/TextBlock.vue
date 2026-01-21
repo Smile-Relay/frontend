@@ -14,11 +14,11 @@ defineExpose<{
 })
 </script>
 <template>
-  <div class="max-w-3xl mx-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+  <UCard>
     <p class="text-4xl leading-relaxed text-gray-700">
       {{ props.text }}
     </p>
-  </div>
+  </UCard>
 </template>
 
 <style scoped>

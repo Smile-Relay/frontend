@@ -6,6 +6,7 @@ import { useLLM, Message } from '~/composables/useLLM'
 import { useBackHome } from "~/composables/useBackHome";
 import { useT2I } from "~/composables/useT2I";
 import {useGenderImage} from "~/composables/useGenderImage";
+import OptionsList from "~/components/OptionsList.vue";
 
 const tipText = ref<null|HTMLParagraphElement>(null);
 const text = ref<string>("")
@@ -181,15 +182,14 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <button
-        class="text-4xl px-4 py-2 rounded-lg border font-medium
-             bg-white text-gray-700 border-gray-300
-             hover:bg-blue-50 hover:border-blue-400
-             active:scale-95 transition-all"
+    <UButton
+        color="neutral"
+        variant="outline"
+        class="text-4xl"
         @click="router.push('/')"
     >
       退出
-    </button>
+    </UButton>
     <p ref="tipText" class="fixed w-full text-center text-5xl mt-10 text-gray-50">看着我, 几秒就好</p>
     <div class="w-full h-screen center flex items-center justify-center">
       <MotionPresence>
@@ -230,7 +230,7 @@ onUnmounted(() => {
           <div
               v-show="displayFeelings">
             <p class="text-3xl text-amber-50">你认为以下的哪一个选项更适合你目前的感受?</p>
-            <EmotionOptions :options="feelingOptions" @select="handleFeelingSelection" />
+            <OptionsList :options="feelingOptions" @select="handleFeelingSelection" />
           </div>
         </Motion>
       </MotionPresence>
@@ -252,7 +252,7 @@ onUnmounted(() => {
             }"
         >
           <p class="text-3xl text-amber-50">你认为以下的哪一个选项更适合你目前的情绪?</p>
-          <EmotionOptions :options="options" @select="handleSelection" />
+          <OptionsList :options="options" @select="handleSelection" />
         </Motion>
       </MotionPresence>
       <Motion
@@ -270,7 +270,7 @@ onUnmounted(() => {
       >
         <BottleView :phrase="null" :preview="true" :img-url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
         <p class="text-3xl text-amber-50">你要扔出它吗</p>
-        <EmotionOptions :options="['扔出', '不扔出']" @select="handleThrowSelection" />
+        <OptionsList :options="['扔出', '不扔出']" @select="handleThrowSelection" />
       </Motion>
     </div>
   </div>
