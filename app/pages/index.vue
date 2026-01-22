@@ -33,7 +33,7 @@ const goNext = async () => {
       <Motion
           class="absolute"
           :animate="{ x: [-250, -200, -250], y: [500, 550, 500]}"
-          :transition="{ duration: 2, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
+          :transition="{ duration: 1.5, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }"
       >
         <img class="rotate-45 top-125" alt="N/A" src="/point_right.png">
       </Motion>
