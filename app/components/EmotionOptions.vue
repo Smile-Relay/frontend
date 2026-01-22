@@ -24,7 +24,7 @@ function handleClick(key: string) {
           variant="outline"
           color="neutral"
           class="flex flex-col items-start gap-2 p-4 w-full text-2xl"
-          @click="handleClick(String(key))"
+          @click="handleClick(getChinese(key))"
       >
         <div class="flex justify-between w-full">
           <span>{{ getChinese(key) }}</span>
