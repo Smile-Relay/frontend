@@ -219,7 +219,7 @@ onUnmounted(() => {
       退出
     </UButton>
     <p ref="tipText" class="fixed w-full text-center text-5xl text-gray-50">看着我, 几秒就好</p>
-    <div class="w-full h-screen center flex items-center justify-center">
+    <div class="w-full h-[1087px] center flex flex-col items-center justify-center">
       <MotionPresence>
         <Motion
         v-show="isActive"
@@ -296,7 +296,7 @@ onUnmounted(() => {
             ease: 'easeInOut'
           }"
       >
-        <BottleView :phrase="null" :preview="true" :img-url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
+        <BottleView class="mt-26" :phrase="null" :preview="true" :img-url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
         <p class="text-3xl text-amber-50">你要扔出它吗</p>
         <OptionsList :options="['扔出', '不扔出']" @select="handleThrowSelection" />
       </Motion>
