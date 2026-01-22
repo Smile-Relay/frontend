@@ -7,18 +7,26 @@ import { useBackHome } from "~/composables/useBackHome";
 import { useT2I } from "~/composables/useT2I";
 import {useGenderImage} from "~/composables/useGenderImage";
 import OptionsList from "~/components/OptionsList.vue";
+import type {Prediction} from "~/composables/prediction";
 
 const tipText = ref<null|HTMLParagraphElement>(null);
 const text = ref<string>("")
 const isActive = ref(true);
 const repeat = ref(Infinity)
-const options = ref<string[]>([])
 const feelingOptions = ref(["想放假✈️", "好饿啊🍔", "想家🏠", "🍀求锦鲤", "😆元气满满", "求灵感💡", "🏫上岸!"])
 const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
 const displayThrow = ref(false)
-const handleSelection = ref(async (value: string)=>{console.log(value)})
+const prediction = ref<Prediction>({
+  Angry: 0,
+  Disgust: 0,
+  Fear: 0,
+  Happy: 0,
+  Neutral: 0,
+  Sad: 0,
+  Surprise: 0
+});
 const llm = useLLM()
 const t2i = useT2I()
 const img_url = ref<null|string>(null)
@@ -27,17 +35,6 @@ const emotion = ref("")
 const feeling = ref("")
 const phrase = ref("")
 const router = useRouter();
-
-type Prediction = {
-  Angry: number,
-  Disgust: number,
-  Fear: number,
-  Happy: number,
-  Neutral: number,
-  Sad: number,
-  Surprise: number,
-  Gender?: number
-}
 
 const detect = async ()=>{
   if (!isActive.value) return;
@@ -53,70 +50,54 @@ const detect = async ()=>{
   tipText.value.textContent = "好, 非常棒";
   const probabilities = JSON.parse(text) as Prediction;
   console.log(probabilities)
-  handleSelection.value = getHandleSection(probabilities);
-  await generateEmotionOption(probabilities)
-}
-
-const generateEmotionOption = async (probabilities: Prediction)=>{
-  const response = await llm.completions(
-      [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用生成两个以上的一个emoji+简体中文的用户可能的情绪选项选项(如💢愤怒, 😣伤心, 😫疲惫, 🏠想回家等)。 请注意,将每一个选项包裹于{{{}}}中，若不按照此格式输出不计分`) ]
-  )
+  prediction.value = probabilities
   isActive.value = false
   repeat.value = 0;
-  const message = JSON.parse(await response.text());
-  console.log(message)
-  const content = message.choices[0].message.content
-  console.log(content)
   setTimeout(()=>{
-    options.value = [...content.matchAll(/\{\{\{(.*?)}}}/g)]
-        .map(m => m[1])
-        .filter(Boolean);
-    console.log(options.value)
     displayOptions.value = true
   }, 1500)
 }
 
-const getHandleSection = (probabilities: Prediction) => {
-  return async (selection: string) => {
-    console.log(selection)
-    emotion.value = selection
-    displayOptions.value = false
-    if (!tipText.value) return;
+const handleSelection = async (selection: string) => {
+  console.log(selection)
+  emotion.value = selection
+  displayOptions.value = false
+  if (!tipText.value) return;
+  if (!prediction.value) return;
+  refresh_timer()
+  tipText.value.textContent = "好的, 让我想想🤔";
+  gender.value = prediction.value.Gender || 0;
+  delete prediction.value.Gender;
+  const response = await llm.completions(
+      [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(prediction.value)}, 用户自己认为自己现在的状态为${selection}, 生成一段20-30字的没有人称的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态, 只需要这段话就好,不要有多余的文字或符号`) ],
+      true
+  )
+  const reader = response.body?.getReader()
+  const decoder = new TextDecoder()
+  if (!reader) return
+  if (!tipText.value)return;
+  tipText.value.textContent = "我觉得这是你现在的感受";
+  setTimeout(()=>{displayText.value = true;}, 1500)
+  while (true) {
+    const { value, done } = await reader.read()
+    if (done) break
     refresh_timer()
-    tipText.value.textContent = "好的, 让我想想🤔";
-    gender.value = probabilities.Gender || 0;
-    delete probabilities.Gender;
-    const response = await llm.completions(
-        [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(probabilities)}, 用户自己认为自己现在的状态为${selection}, 生成一段20-30字的没有人称的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态, 只需要这段话就好,不要有多余的文字或符号`) ],
-        true
-    )
-    const reader = response.body?.getReader()
-    const decoder = new TextDecoder()
-    if (!reader) return
-    if (!tipText.value)return;
-    tipText.value.textContent = "我觉得这是你现在的感受";
-    setTimeout(()=>{displayText.value = true;}, 1500)
-    while (true) {
-      const { value, done } = await reader.read()
-      if (done) break
-      refresh_timer()
-      const chunk = decoder.decode(value)
-      chunk.split('\n').forEach(line => {
-        if (!line.startsWith('data: ')) return
-        const jsonStr = line.replace(/^data: /, '').trim()
-        if (jsonStr === '[DONE]') return
-        try {
-          const data = JSON.parse(jsonStr)
-          const content = data.choices?.[0]?.delta?.content
-          if (content) text.value += content
-          console.log(content)
-        } catch {
-          router.push("/")
-        }
-      })
-    }
-    displayFeelings.value = true;
+    const chunk = decoder.decode(value)
+    chunk.split('\n').forEach(line => {
+      if (!line.startsWith('data: ')) return
+      const jsonStr = line.replace(/^data: /, '').trim()
+      if (jsonStr === '[DONE]') return
+      try {
+        const data = JSON.parse(jsonStr)
+        const content = data.choices?.[0]?.delta?.content
+        if (content) text.value += content
+        console.log(content)
+      } catch {
+        router.push("/")
+      }
+    })
   }
+  displayFeelings.value = true;
 }
 
 const handleFeelingSelection = async (selection: string)=>{
@@ -252,7 +233,7 @@ onUnmounted(() => {
             }"
         >
           <p class="text-3xl text-amber-50">你认为以下的哪一个选项更适合你目前的情绪?</p>
-          <OptionsList :options="options" @select="handleSelection" />
+          <EmotionOptions :prediction="prediction" @select="handleSelection" />
         </Motion>
       </MotionPresence>
       <Motion
