@@ -70,25 +70,21 @@ const nextStep = async () => {
       </div>
     </div>
     <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2">
-      <button
-          :class="[
-          'px-6 py-2 rounded-lg font-medium transition-colors duration-200',
-          'bg-blue-500 text-white cursor-pointer'
-        ]"
+      <UButton
+          color="neutral"
+          class="text-2xl"
           @click="router.push('/')"
       >
         返回
-      </button>
-      <button
-          :class="[
-          'px-6 py-2 rounded-lg font-medium transition-colors duration-200',
-          canNext ? 'bg-purple-500 text-white hover:bg-purple-600 cursor-pointer' : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-        ]"
+      </UButton>
+      <UButton
+          color="info"
+          class="text-2xl ml-3"
           :disabled="!canNext"
           @click="nextStep"
       >
         下一步
-      </button>
+      </UButton>
     </div>
   </div>
 </template>
