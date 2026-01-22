@@ -8,8 +8,31 @@ import { useT2I } from "~/composables/useT2I";
 import {useGenderImage} from "~/composables/useGenderImage";
 import OptionsList from "~/components/OptionsList.vue";
 import type {Prediction} from "~/composables/prediction";
+import type {StepperItem} from "@nuxt/ui/components/Stepper.vue";
+
+const items = ref<StepperItem[]>([
+  {
+    title: '表情识别'
+  },
+  {
+    title: '选择情绪'
+  },
+  {
+    title: '生成感受'
+  },
+  {
+    title: '选择想法'
+  },
+  {
+    title: '图片生成'
+  },
+  {
+    title: '扔出瓶子'
+  }
+])
 
 const tipText = ref<null|HTMLParagraphElement>(null);
+const stepper = useTemplateRef('stepper')
 const text = ref<string>("")
 const isActive = ref(true);
 const repeat = ref(Infinity)
@@ -39,6 +62,7 @@ const router = useRouter();
 const detect = async ()=>{
   if (!isActive.value) return;
   if (!tipText.value) return;
+  if (!stepper.value) return;
   const request = await fetch("http://localhost:5001/detect")
   const text = await request.text()
   if (request.status != 200) {
@@ -48,6 +72,7 @@ const detect = async ()=>{
   }
   refresh_timer()
   tipText.value.textContent = "好, 非常棒";
+  stepper.value.next()
   const probabilities = JSON.parse(text) as Prediction;
   console.log(probabilities)
   prediction.value = probabilities
@@ -64,6 +89,8 @@ const handleSelection = async (selection: string) => {
   displayOptions.value = false
   if (!tipText.value) return;
   if (!prediction.value) return;
+  if (!stepper.value) return;
+  stepper.value.next()
   refresh_timer()
   tipText.value.textContent = "好的, 让我想想🤔";
   gender.value = prediction.value.Gender || 0;
@@ -97,11 +124,14 @@ const handleSelection = async (selection: string) => {
       }
     })
   }
+  stepper.value.next()
   displayFeelings.value = true;
 }
 
 const handleFeelingSelection = async (selection: string)=>{
   if (!tipText.value) return;
+  if (!stepper.value) return;
+  stepper.value.next()
   refresh_timer()
   displayText.value = false
   displayFeelings.value = false
@@ -112,17 +142,19 @@ const handleFeelingSelection = async (selection: string)=>{
   tipText.value.textContent = "情绪图片生成中🫙"
   img_url.value = await t2i.generate(`将人物的表情和动作和背景改为符合以下描述: ${text.value}, 结合想法: ${feeling.value}`, useGenderImage(gender.value) || "")
   refresh_timer()
+  stepper.value.next()
   isActive.value = false
   repeat.value = 0;
   tipText.value.textContent = "这是你的情绪漂流瓶🫙"
   setTimeout(() => {
     displayThrow.value = true
   }, 1500)
-
 }
 
 const handleThrowSelection = async (selection: string)=>{
   refresh_timer()
+  if (!stepper.value) return;
+  stepper.value.next()
   if (selection === "不扔出"){
     await router.push("/")
     return
@@ -163,7 +195,9 @@ onUnmounted(() => {
 
 <template>
   <div>
+    <UStepper ref="stepper" size="xl" color="info" :items="items" />
     <UButton
+        v-if="!displayThrow"
         color="neutral"
         variant="outline"
         class="text-4xl"

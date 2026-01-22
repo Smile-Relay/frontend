@@ -36,35 +36,37 @@ const nextStep = async () => {
   <div>
     <div class="flex h-screen w-screen pb-28">
       <div class="w-1/2 p-2 grid grid-cols-2 gap-2">
-        <h1 class="w-full">形容词</h1>
+        <h1 class="text-4xl w-full">形容词</h1>
         <div />
-        <div
+        <UButton
             v-for="(adj, index) in adjectives"
             :key="index"
+            color="neutral" variant="outline"
             :class="[
-            'text-2xl border rounded-lg cursor-pointer flex items-center justify-center text-center transition-colors duration-200 h-16',
-            selectedAdjectiveIndex === index ? 'bg-blue-500 text-white font-semibold' : 'bg-gray-100 hover:bg-blue-200'
+            'text-2xl flex items-center justify-center text-center',
+            selectedAdjectiveIndex === index ? 'bg-blue-300 font-semibold' : ''
           ]"
             @click="selectedAdjectiveIndex = index;refresh_timer()"
         >
           {{ adj }}
-        </div>
+        </UButton>
       </div>
 
       <div class="w-1/2 p-2 grid grid-cols-2 gap-2">
-        <h1 class="w-full">名词</h1>
+        <h1 class="text-4xl w-full">名词</h1>
         <div/>
-        <div
+        <UButton
             v-for="(noun, index) in nouns"
             :key="index"
+            color="neutral" variant="outline"
             :class="[
-            'text-2xl border rounded-lg cursor-pointer flex items-center justify-center text-center transition-colors duration-200 h-16',
-            selectedNounIndex === index ? 'bg-green-500 text-white font-semibold' : 'bg-gray-100 hover:bg-green-200'
+            'text-2xl flex items-center justify-center text-center',
+            selectedNounIndex === index ? 'bg-green-300 font-semibold' : ''
           ]"
             @click="selectedNounIndex = index;refresh_timer()"
         >
           {{ noun }}
-        </div>
+        </UButton>
       </div>
     </div>
     <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2">

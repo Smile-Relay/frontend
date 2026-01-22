@@ -88,8 +88,8 @@ const handleAction = async (action: string) => {
     </div>
 
     <div v-show="id" class="mt-6 flex gap-4">
-      <UButton class="bg-gray-500 hover:bg-gray-400 text-white text-2xl" @click="router.push('/')">离开</UButton>
-      <UButton class="bg-blue-500 hover:bg-blue-400 text-white text-2xl" @click="get_new">换一个</UButton>
+      <UButton class="bg-gray-500 active:bg-gray-400 hover:bg-gray-400 text-white text-2xl" @click="router.push('/')">离开</UButton>
+      <UButton class="bg-blue-500 active:bg-blue-400 hover:bg-blue-400 text-white text-2xl" @click="get_new">换一个</UButton>
     </div>
     <div v-show="!id">
       <p class="text-3xl text-amber-50">暂时没有已扔出的漂流瓶</p>

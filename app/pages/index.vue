@@ -20,7 +20,7 @@ const goNext = async () => {
 <template>
   <div>
     <UButton
-        class="z-99999999999999 text-4xl bg-blue-200 text-cyan-800 absolute bottom-1.5 left-1"
+        class="z-99999999999999 text-4xl active:bg-blue-100 hover:bg-blue-100 bg-blue-200 text-cyan-800 absolute bottom-1.5 left-1"
         @click="router.push('/search')"
     >
       🫙找瓶子
