@@ -208,17 +208,17 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <UStepper ref="stepper" size="xl" color="info" :items="items" />
+    <UStepper ref="stepper" class="my-3" size="xl" color="info" :items="items" />
     <UButton
         v-if="!displayThrow"
         color="neutral"
         variant="outline"
-        class="text-4xl"
+        class="text-4xl ml-3"
         @click="router.push('/')"
     >
       退出
     </UButton>
-    <p ref="tipText" class="fixed w-full text-center text-5xl mt-10 text-gray-50">看着我, 几秒就好</p>
+    <p ref="tipText" class="fixed w-full text-center text-5xl text-gray-50">看着我, 几秒就好</p>
     <div class="w-full h-screen center flex items-center justify-center">
       <MotionPresence>
         <Motion

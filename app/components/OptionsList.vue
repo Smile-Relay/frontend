@@ -15,7 +15,7 @@ function handleClick(value: string) {
 </script>
 
 <template>
-  <div class="flex gap-3 flex-col text-4xl">
+  <div class="mt-3 flex gap-3 flex-col text-4xl">
     <UButton
         v-for="item in props.options"
         :key="item"
