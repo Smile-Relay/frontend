@@ -12,22 +12,28 @@ import type {StepperItem} from "@nuxt/ui/components/Stepper.vue";
 
 const items = ref<StepperItem[]>([
   {
-    title: '表情识别'
+    title: '表情识别',
+    icon: 'ic:baseline-camera-enhance'
   },
   {
-    title: '选择情绪'
+    title: '选择情绪',
+    icon: 'ic:baseline-done-all'
   },
   {
-    title: '生成感受'
+    title: '生成感受',
+    icon: 'ic:outline-add-reaction'
   },
   {
-    title: '选择想法'
+    title: '选择想法',
+    icon: 'ic:baseline-done-all'
   },
   {
-    title: '图片生成'
+    title: '图片生成',
+    icon: 'ic:baseline-image'
   },
   {
-    title: '扔出瓶子'
+    title: '扔出瓶子',
+    icon: 'ic:baseline-water'
   }
 ])
 
@@ -140,7 +146,14 @@ const handleFeelingSelection = async (selection: string)=>{
   isActive.value = true
   repeat.value = Infinity;
   tipText.value.textContent = "情绪图片生成中🫙"
-  img_url.value = await t2i.generate(`将人物的表情和动作和背景改为符合以下描述: ${text.value}, 结合想法: ${feeling.value}`, useGenderImage(gender.value) || "")
+  try {
+    img_url.value = await t2i.generate(`将人物的表情和动作和背景改为符合以下描述: ${text.value}, 结合想法: ${feeling.value}`, useGenderImage(gender.value) || "")
+
+  }
+  catch (error) {
+    console.error(error)
+    await router.push("/")
+  }
   refresh_timer()
   stepper.value.next()
   isActive.value = false

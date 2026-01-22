@@ -73,6 +73,7 @@ const nextStep = async () => {
       <UButton
           color="neutral"
           class="text-2xl"
+          variant="outline"
           @click="router.push('/')"
       >
         返回

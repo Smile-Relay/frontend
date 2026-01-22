@@ -88,7 +88,7 @@ const handleAction = async (action: string) => {
     </div>
 
     <div v-show="id" class="mt-6 flex gap-4">
-      <UButton color="neutral" class="text-2xl" @click="router.push('/')">离开</UButton>
+      <UButton color="neutral" variant="outline" class="text-2xl" @click="router.push('/')">离开</UButton>
       <UButton color="info" class="text-2xl" @click="get_new">换一个</UButton>
     </div>
     <div v-show="!id">
