@@ -51,21 +51,21 @@ function handleAction(action: 'like' | 'hug' | 'flower') {
   <UCard class="w-[700px]">
     <div class="flex justify-between">
       <UButton
-          class="text-4xl bg-pink-400 hover:bg-pink-300 flex flex-col items-center"
+          class="text-4xl bg-pink-400 hover:bg-pink-300 active:bg-pink-300 flex flex-col items-center"
           @click="handleAction('like')"
       >
         喜欢💖
         <span class="mt-1">{{ likeCount }}</span>
       </UButton>
       <UButton
-          class="bg-yellow-400 hover:bg-yellow-300 text-4xl flex flex-col items-center"
+          class="bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-300 text-4xl flex flex-col items-center"
           @click="handleAction('hug')"
       >
         拥抱 🤗
         <span class="mt-1">{{ hugCount }}</span>
       </UButton>
       <UButton
-          class="bg-red-400 hover:bg-red-300 text-4xl flex flex-col items-center"
+          class="bg-red-400 hover:bg-red-300 active:bg-red-300 text-4xl flex flex-col items-center"
           @click="handleAction('flower')"
       >
         送花 🌹
