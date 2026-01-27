@@ -7,10 +7,10 @@ export class Message {
     }
 }
 export class LLM {
-    url: string;
+    url: URL;
     api_key: string;
     model: string;
-    constructor(url: string, api_key: string, model: string) {
+    constructor(url: URL, api_key: string, model: string) {
         this.url = url;
         this.api_key = api_key;
         this.model = model;
@@ -31,5 +31,5 @@ export class LLM {
     }
 }
 export const useLLM = () => {
-    return new LLM("https://api.siliconflow.cn/v1", "API_KEY_REMOVED", "deepseek-ai/DeepSeek-V3");
+    return new LLM(<URL>URL.parse("https://api.siliconflow.cn/v1"), "API_KEY_REMOVED", "deepseek-ai/DeepSeek-V3");
 }

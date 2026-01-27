@@ -1,9 +1,9 @@
 export class T2I {
-    url: string;
+    url: URL;
     api_key: string;
     model: string;
 
-    constructor(url: string, api_key: string, model: string) {
+    constructor(url: URL, api_key: string, model: string) {
         this.url = url;
         this.api_key = api_key;
         this.model = model;
@@ -46,5 +46,5 @@ export class T2I {
     }
 }
 export const useT2I = () => {
-    return new T2I("/dashscope/api/v1", "API_KEY_REMOVED", "wan2.6-image");
+    return new T2I(<URL>URL.parse("/dashscope/api/v1"), "API_KEY_REMOVED", "wan2.6-image");
 }

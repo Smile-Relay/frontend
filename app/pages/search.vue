@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useVocabularies } from "~/composables/useVocabularies";
+import { vocabularies } from "~/composables/useVocabularies";
 import { useRouter } from "vue-router";
 import { useBackHome } from "~/composables/useBackHome";
 
@@ -11,7 +11,6 @@ useHead({
     }
 )
 
-const vocabularies = await useVocabularies()
 const adjectives = vocabularies.adjectives
 const nouns = vocabularies.nouns
 const router = useRouter()
