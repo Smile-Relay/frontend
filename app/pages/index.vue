@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { Motion } from "@oku-ui/motion";
 import { useRouter } from "vue-router";
+const { locale, t } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
+
+const targetLocale = computed(() => locale.value === 'zh' ? 'en' : 'zh')
+const buttonLabel = computed(() => locale.value === 'zh' ? 'EN' : '中')
 
 useHead({
   bodyAttrs: {
@@ -20,10 +25,18 @@ const goNext = async () => {
 <template>
   <div>
     <UButton
+        :to="switchLocalePath(targetLocale)"
+        icon="i-heroicons-language"
+        color="info"
+        class="absolute bottom-1.5 right-1 z-99999999999999 text-4xl"
+    >
+      {{ buttonLabel }}
+    </UButton>
+    <UButton
         class="z-99999999999999 text-4xl active:bg-blue-100 hover:bg-blue-100 bg-blue-200 text-cyan-800 absolute bottom-1.5 left-1"
         @click="router.push('/search')"
     >
-      🫙找瓶子
+      {{ t('index.search') }}
     </UButton>
     <div class="flex justify-center w-screen h-screen" @click="goNext">
       <p class="text-7xl absolute left-20 top-60 rotate-330">❤️</p>
@@ -38,8 +51,8 @@ const goNext = async () => {
         <img class="rotate-45 top-125" alt="N/A" src="/point_right.png">
       </Motion>
 
-      <h1 class="absolute font-bold text-7xl top-[300px] text-cyan-900">情绪漂流瓶</h1>
-      <p class="absolute font-bold text-6xl top-[400px] text-cyan-800">Click to start</p>
+      <h1 class="absolute font-bold text-7xl top-[300px] text-cyan-900">{{ t('index.title') }}</h1>
+      <p class="absolute font-bold text-6xl top-[400px] text-cyan-800">{{ t('index.start') }}</p>
       <Motion
           class="absolute w-[200%] bottom-0"
           :animate="{ y: [100, 25, 100], x: [-40, 0, 40]}"

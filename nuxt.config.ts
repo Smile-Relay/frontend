@@ -26,5 +26,14 @@ export default defineNuxtConfig({
     '@nuxt/test-utils',
     '@nuxt/ui',
     '@oku-ui/motion/nuxt',
-  ]
+    '@nuxtjs/i18n'
+  ],
+  i18n: {
+    defaultLocale: 'en',
+    locales: [
+      { code: 'en', name: 'English', file: 'en.json' },
+      { code: 'zh', name: '中文', file: 'zh.json' },
+    ],
+    strategy: 'prefix',
+  }
 })
