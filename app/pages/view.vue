@@ -11,6 +11,8 @@ const flowers = ref(0)
 const likes = ref(0)
 const hugs = ref(0)
 const { refresh_timer } = useBackHome(router, 60000)
+const { t } = useI18n()
+const toPhrase = usePhrase()
 
 useHead({
       bodyAttrs: {
@@ -30,7 +32,7 @@ const get_new = async ()=>{
   const bottle_response = await fetch(`http://localhost:5001/get_bottle/${id.value}`)
   const bottle = await bottle_response.json()
   console.log(bottle)
-  phrase.value = usePhrase(bottle.id)
+  phrase.value = toPhrase(bottle.id)
   passage.value = bottle.passage
   emotion.value = bottle.emotion
   feeling.value = bottle.feeling
@@ -55,7 +57,7 @@ onMounted( async ()=>{
     return
   }
   const bottle = await bottle_response.json()
-  phrase.value = usePhrase(bottle.id)
+  phrase.value = toPhrase(bottle.id)
   passage.value = bottle.passage
   emotion.value = bottle.emotion
   feeling.value = bottle.feeling
@@ -88,12 +90,12 @@ const handleAction = async (action: string) => {
     </div>
 
     <div v-show="id" class="mt-6 flex gap-4">
-      <UButton color="neutral" variant="outline" class="text-2xl" @click="router.push('/')">离开</UButton>
-      <UButton color="info" class="text-2xl" @click="get_new">换一个</UButton>
+      <UButton color="neutral" variant="outline" class="text-2xl" @click="router.push('/')">{{ t('view.leave') }}</UButton>
+      <UButton color="info" class="text-2xl" @click="get_new">{{ t('view.changeOne') }}</UButton>
     </div>
     <div v-show="!id">
-      <p class="text-3xl text-amber-50">暂时没有已扔出的漂流瓶</p>
-      <UButton color="info" class="text-2xl" @click="router.push('/')">去扔一个</UButton>
+      <p class="text-3xl text-amber-50">{{ t('view.empty') }}</p>
+      <UButton color="info" class="text-2xl" @click="router.push('/')">{{ t('view.throwOne') }}</UButton>
     </div>
   </div>
 

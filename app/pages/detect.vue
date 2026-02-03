@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Motion, MotionPresence } from "@oku-ui/motion";
-import {onMounted, onUnmounted, ref} from 'vue'
+import {computed, onMounted, onUnmounted, ref} from 'vue'
 import { useRouter } from "#vue-router";
 import { useLLM, Message } from '~/composables/useLLM'
 import { useBackHome } from "~/composables/useBackHome";
@@ -10,29 +10,30 @@ import OptionsList from "~/components/OptionsList.vue";
 import type {Prediction} from "~/composables/prediction";
 import type {StepperItem} from "@nuxt/ui/components/Stepper.vue";
 
-const items = ref<StepperItem[]>([
+const { t, tm, rt } = useI18n()
+const items = computed<StepperItem[]>(() => [
   {
-    title: '表情识别',
+    title: t('detect.steps.face'),
     icon: 'ic:baseline-camera-enhance'
   },
   {
-    title: '选择情绪',
+    title: t('detect.steps.chooseEmotion'),
     icon: 'ic:baseline-done-all'
   },
   {
-    title: '生成感受',
+    title: t('detect.steps.generateFeeling'),
     icon: 'ic:outline-add-reaction'
   },
   {
-    title: '选择想法',
+    title: t('detect.steps.chooseThought'),
     icon: 'ic:baseline-done-all'
   },
   {
-    title: '图片生成',
+    title: t('detect.steps.imageGen'),
     icon: 'ic:baseline-image'
   },
   {
-    title: '扔出瓶子',
+    title: t('detect.steps.throwBottle'),
     icon: 'ic:baseline-water'
   }
 ])
@@ -42,7 +43,10 @@ const stepper = useTemplateRef('stepper')
 const text = ref<string>("")
 const isActive = ref(true);
 const repeat = ref(Infinity)
-const feelingOptions = ref(["想放假✈️", "好饿啊🍔", "想家🏠", "🍀求锦鲤", "😆元气满满", "求灵感💡", "🏫上岸!"])
+const feelingOptions = computed(() => {
+  const list = tm("detect.feelingOptions");
+  return Array.isArray(list) ? list.map((item) => rt(item)) : [];
+})
 const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
@@ -72,12 +76,12 @@ const detect = async ()=>{
   const request = await fetch("http://localhost:5001/detect")
   const text = await request.text()
   if (request.status != 200) {
-    tipText.value.textContent = "你在看吗";
+    tipText.value.textContent = t('detect.tip.areYouThere');
     await detect()
     return
   }
   refresh_timer()
-  tipText.value.textContent = "好, 非常棒";
+  tipText.value.textContent = t('detect.tip.great');
   stepper.value.next()
   const probabilities = JSON.parse(text) as Prediction;
   console.log(probabilities)
@@ -98,18 +102,18 @@ const handleSelection = async (selection: string) => {
   if (!stepper.value) return;
   stepper.value.next()
   refresh_timer()
-  tipText.value.textContent = "好的, 让我想想🤔";
+  tipText.value.textContent = t('detect.tip.thinking');
   gender.value = prediction.value.Gender || 0;
   delete prediction.value.Gender;
   const response = await llm.completions(
-      [ new Message("user", `用户目前的表情根据模型生成的概率为${JSON.stringify(prediction.value)}, 用户自己认为自己现在的状态为${selection}, 生成一段20-30字的没有人称的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态, 只需要这段话就好,不要有多余的文字或符号`) ],
+      [ new Message("user", t('detect.llmPrompt', { prediction: JSON.stringify(prediction.value), selection })) ],
       true
   )
   const reader = response.body?.getReader()
   const decoder = new TextDecoder()
   if (!reader) return
   if (!tipText.value)return;
-  tipText.value.textContent = "我觉得这是你现在的感受";
+  tipText.value.textContent = t('detect.tip.thisIsYourFeeling');
   setTimeout(()=>{displayText.value = true;}, 1500)
   while (true) {
     const { value, done } = await reader.read()
@@ -145,9 +149,12 @@ const handleFeelingSelection = async (selection: string)=>{
   feeling.value = selection
   isActive.value = true
   repeat.value = Infinity;
-  tipText.value.textContent = "情绪图片生成中🫙"
+  tipText.value.textContent = t('detect.tip.imageGenerating')
   try {
-    img_url.value = await t2i.generate(`将人物的表情和动作和背景改为符合以下描述: ${text.value}, 结合想法: ${feeling.value}`, useGenderImage(gender.value) || "")
+    img_url.value = await t2i.generate(
+      t('detect.t2iPrompt', { text: text.value, feeling: feeling.value }),
+      useGenderImage(gender.value) || ""
+    )
 
   }
   catch (error) {
@@ -158,7 +165,7 @@ const handleFeelingSelection = async (selection: string)=>{
   stepper.value.next()
   isActive.value = false
   repeat.value = 0;
-  tipText.value.textContent = "这是你的情绪漂流瓶🫙"
+  tipText.value.textContent = t('detect.tip.thisIsYourBottle')
   setTimeout(() => {
     displayThrow.value = true
   }, 1500)
@@ -168,7 +175,7 @@ const handleThrowSelection = async (selection: string)=>{
   refresh_timer()
   if (!stepper.value) return;
   stepper.value.next()
-  if (selection === "不扔出"){
+  if (selection === t('detect.throw.options.notThrow')){
     await router.push("/")
     return
   }
@@ -216,9 +223,9 @@ onUnmounted(() => {
         class="text-4xl ml-3"
         @click="router.push('/')"
     >
-      退出
+      {{ t('detect.exit') }}
     </UButton>
-    <p ref="tipText" class="fixed w-full text-center text-5xl text-gray-50">看着我, 几秒就好</p>
+    <p ref="tipText" class="fixed w-full text-center text-5xl text-gray-50">{{ t('detect.tip.lookAtMe') }}</p>
     <div class="w-full h-[1087px] center flex flex-col items-center justify-center">
       <MotionPresence>
         <Motion
@@ -257,7 +264,7 @@ onUnmounted(() => {
           <TextBlock v-show="displayText" :text="text" />
           <div
               v-show="displayFeelings">
-            <p class="text-3xl text-amber-50">你认为以下的哪一个选项更适合你目前的感受?</p>
+            <p class="text-3xl text-amber-50">{{ t('detect.questions.chooseFeeling') }}</p>
             <OptionsList :options="feelingOptions" @select="handleFeelingSelection" />
           </div>
         </Motion>
@@ -279,7 +286,7 @@ onUnmounted(() => {
               opacity: 0
             }"
         >
-          <p class="text-3xl text-amber-50">你认为以下的哪一个选项更适合你目前的情绪?</p>
+          <p class="text-3xl text-amber-50">{{ t('detect.questions.chooseEmotion') }}</p>
           <EmotionOptions :prediction="prediction" @select="handleSelection" />
         </Motion>
       </MotionPresence>
@@ -297,8 +304,8 @@ onUnmounted(() => {
           }"
       >
         <BottleView class="mt-26" :phrase="null" :preview="true" :img-url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
-        <p class="text-3xl text-amber-50">你要扔出它吗</p>
-        <OptionsList :options="['扔出', '不扔出']" @select="handleThrowSelection" />
+        <p class="text-3xl text-amber-50">{{ t('detect.throw.prompt') }}</p>
+        <OptionsList :options="[t('detect.throw.options.throw'), t('detect.throw.options.notThrow')]" @select="handleThrowSelection" />
       </Motion>
     </div>
   </div>

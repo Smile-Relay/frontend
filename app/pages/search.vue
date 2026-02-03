@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { vocabularies } from "~/composables/useVocabularies";
+import { useVocabularies } from "~/composables/useVocabularies";
 import { useRouter } from "vue-router";
 import { useBackHome } from "~/composables/useBackHome";
 
@@ -11,8 +11,8 @@ useHead({
     }
 )
 
-const adjectives = vocabularies.adjectives
-const nouns = vocabularies.nouns
+const { t } = useI18n()
+const { adjectives, nouns } = useVocabularies()
 const router = useRouter()
 const { refresh_timer } = useBackHome(router, 60000)
 
@@ -35,7 +35,7 @@ const nextStep = async () => {
   <div>
     <div class="flex h-screen w-screen pb-28">
       <div class="w-1/2 p-2 grid grid-cols-2 gap-2">
-        <h1 class="text-4xl w-full">形容词</h1>
+        <h1 class="text-4xl w-full">{{ t('search.adjectivesTitle') }}</h1>
         <div />
         <UButton
             v-for="(adj, index) in adjectives"
@@ -52,7 +52,7 @@ const nextStep = async () => {
       </div>
 
       <div class="w-1/2 p-2 grid grid-cols-2 gap-2">
-        <h1 class="text-4xl w-full">名词</h1>
+        <h1 class="text-4xl w-full">{{ t('search.nounsTitle') }}</h1>
         <div/>
         <UButton
             v-for="(noun, index) in nouns"
@@ -75,7 +75,7 @@ const nextStep = async () => {
           variant="outline"
           @click="router.push('/')"
       >
-        返回
+        {{ t('search.back') }}
       </UButton>
       <UButton
           color="info"
@@ -83,7 +83,7 @@ const nextStep = async () => {
           :disabled="!canNext"
           @click="nextStep"
       >
-        下一步
+        {{ t('search.next') }}
       </UButton>
     </div>
   </div>

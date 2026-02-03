@@ -2,6 +2,117 @@
   "index": {
     "title": "情绪漂流瓶",
     "start": "点击以开始",
-    "search": "\uD83E\uDED9找瓶子"
+    "search": "\ud83e\uded9找瓶子"
+  },
+  "drop": {
+    "rememberId": "记住你的瓶子id:",
+    "options": {
+      "viewOthers": "看看别人的",
+      "leave": "离开"
+    }
+  },
+  "search": {
+    "adjectivesTitle": "形容词",
+    "nounsTitle": "名词",
+    "back": "返回",
+    "next": "下一步",
+    "adjectives": [
+      "干净的",
+      "吵闹的",
+      "普通的",
+      "忙碌的",
+      "老旧的",
+      "新买的",
+      "冰凉的",
+      "温热的",
+      "随手的",
+      "偏暗的",
+      "结实的",
+      "空着的",
+      "慢慢的",
+      "随意的",
+      "熟悉的",
+      "顺滑的"
+    ],
+    "nouns": [
+      "桌子",
+      "椅子",
+      "手机",
+      "钥匙",
+      "杯子",
+      "书包",
+      "门",
+      "窗户",
+      "披萨",
+      "面包",
+      "巧克力",
+      "水果盘",
+      "蛋糕",
+      "咖啡杯",
+      "雨伞",
+      "笔记本"
+    ]
+  },
+  "view": {
+    "leave": "离开",
+    "changeOne": "换一个",
+    "empty": "暂时没有已扔出的漂流瓶",
+    "throwOne": "去扔一个"
+  },
+  "detect": {
+    "steps": {
+      "face": "表情识别",
+      "chooseEmotion": "选择情绪",
+      "generateFeeling": "生成感受",
+      "chooseThought": "选择想法",
+      "imageGen": "图片生成",
+      "throwBottle": "扔出瓶子"
+    },
+    "feelingOptions": [
+      "想放假\u2708\ufe0f",
+      "好饿啊\ud83c\udf54",
+      "想家\ud83c\udfe0",
+      "\ud83c\udf40求锦鲤",
+      "\ud83d\ude06元气满满",
+      "求灵感\ud83d\udca1",
+      "\ud83c\udfeb上岸!"
+    ],
+    "tip": {
+      "areYouThere": "你在看吗",
+      "great": "好, 非常棒",
+      "thinking": "好的, 让我想想\ud83e\udd14",
+      "thisIsYourFeeling": "我觉得这是你现在的感受",
+      "imageGenerating": "情绪图片生成中\ud83e\uded9",
+      "thisIsYourBottle": "这是你的情绪漂流瓶\ud83e\uded9",
+      "lookAtMe": "看着我, 几秒就好"
+    },
+    "questions": {
+      "chooseFeeling": "你认为以下的哪一个选项更适合你目前的感受?",
+      "chooseEmotion": "你认为以下的哪一个选项更适合你目前的情绪?"
+    },
+    "throw": {
+      "prompt": "你要扔出它吗",
+      "options": {
+        "throw": "扔出",
+        "notThrow": "不扔出"
+      }
+    },
+    "exit": "退出",
+    "llmPrompt": "用户目前的表情根据模型生成的概率为{prediction}, 用户自己认为自己现在的状态为{selection}, 生成一段20-30字的没有人称的话来承接用户的情绪, 不要太文艺, 用最简单的语言描述用户的心理状态, 只需要这段话就好,不要有多余的文字或符号",
+    "t2iPrompt": "将人物的表情和动作和背景改为符合以下描述: {text}, 结合想法: {feeling}"
+  },
+  "comment": {
+    "like": "喜欢\ud83d\udc96",
+    "hug": "拥抱 \ud83e\udd17",
+    "flower": "送花 \ud83c\udf39"
+  },
+  "emotions": {
+    "Angry": "\ud83d\ude20生气",
+    "Disgust": "\ud83e\udd22厌恶",
+    "Fear": "\ud83d\ude28恐惧",
+    "Happy": "\ud83d\ude0a开心",
+    "Neutral": "\ud83d\ude10中性",
+    "Sad": "\ud83d\ude22悲伤",
+    "Surprise": "\ud83d\ude32惊讶"
   }
 }

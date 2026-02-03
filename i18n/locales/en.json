@@ -2,6 +2,117 @@
   "index": {
     "title": "Emotion-Drift Bottle",
     "start": "Click to start",
-    "search": "\uD83E\uDED9Find a bottle"
+    "search": "\ud83e\uddd9Find a bottle"
+  },
+  "drop": {
+    "rememberId": "Remember your bottle ID:",
+    "options": {
+      "viewOthers": "See others'",
+      "leave": "Leave"
+    }
+  },
+  "search": {
+    "adjectivesTitle": "Adjectives",
+    "nounsTitle": "Nouns",
+    "back": "Back",
+    "next": "Next",
+    "adjectives": [
+      "clean ",
+      "noisy ",
+      "ordinary ",
+      "busy ",
+      "old ",
+      "new ",
+      "cold ",
+      "warm ",
+      "handy ",
+      "dim ",
+      "sturdy ",
+      "empty ",
+      "slow ",
+      "casual ",
+      "familiar ",
+      "smooth "
+    ],
+    "nouns": [
+      "table",
+      "chair",
+      "phone",
+      "keys",
+      "cup",
+      "backpack",
+      "door",
+      "window",
+      "pizza",
+      "bread",
+      "chocolate",
+      "fruit platter",
+      "cake",
+      "coffee cup",
+      "umbrella",
+      "notebook"
+    ]
+  },
+  "view": {
+    "leave": "Leave",
+    "changeOne": "Change one",
+    "empty": "No bottles have been thrown yet",
+    "throwOne": "Throw one"
+  },
+  "detect": {
+    "steps": {
+      "face": "Expression detection",
+      "chooseEmotion": "Choose emotion",
+      "generateFeeling": "Generate feeling",
+      "chooseThought": "Choose thought",
+      "imageGen": "Image generation",
+      "throwBottle": "Throw the bottle"
+    },
+    "feelingOptions": [
+      "Want a vacation \u2708\ufe0f",
+      "So hungry \ud83c\udf54",
+      "Miss home \ud83c\udfe0",
+      "\ud83c\udf40 Need luck",
+      "\ud83d\ude06 Full of energy",
+      "Need inspiration \ud83d\udca1",
+      "\ud83c\udfeb Pass the exam!"
+    ],
+    "tip": {
+      "areYouThere": "Are you there?",
+      "great": "Great, awesome.",
+      "thinking": "Okay, let me think \ud83e\udd14",
+      "thisIsYourFeeling": "I think this is how you feel right now",
+      "imageGenerating": "Generating your emotion image \ud83e\uded9",
+      "thisIsYourBottle": "This is your emotion bottle \ud83e\uded9",
+      "lookAtMe": "Look at me for a few seconds"
+    },
+    "questions": {
+      "chooseFeeling": "Which of the following better fits how you feel right now?",
+      "chooseEmotion": "Which of the following better fits your current emotion?"
+    },
+    "throw": {
+      "prompt": "Do you want to throw it?",
+      "options": {
+        "throw": "Throw it",
+        "notThrow": "Don't throw it"
+      }
+    },
+    "exit": "Exit",
+    "llmPrompt": "The user's current facial expression probabilities predicted by the model are {prediction}. The user thinks their current state is {selection}. Generate a 20-30 word sentence with no personal pronouns to carry their emotion. Don't be too literary; use the simplest language to describe their psychological state. Only output that sentence, no extra text or symbols.",
+    "t2iPrompt": "Adjust the person's expression, actions, and background to match the following description: {text}, combined with the thought: {feeling}"
+  },
+  "comment": {
+    "like": "Like \ud83d\udc96",
+    "hug": "Hug \ud83e\udd17",
+    "flower": "Send flowers \ud83c\udf39"
+  },
+  "emotions": {
+    "Angry": "\ud83d\ude20 Angry",
+    "Disgust": "\ud83e\udd22 Disgust",
+    "Fear": "\ud83d\ude28 Fear",
+    "Happy": "\ud83d\ude0a Happy",
+    "Neutral": "\ud83d\ude10 Neutral",
+    "Sad": "\ud83d\ude22 Sad",
+    "Surprise": "\ud83d\ude32 Surprise"
   }
 }

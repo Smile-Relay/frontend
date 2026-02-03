@@ -8,6 +8,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { t } = useI18n()
 const emit = defineEmits<{
   (e: 'action', type: 'like' | 'hug' | 'flower', newCount: number): void
 }>()
@@ -54,21 +55,21 @@ function handleAction(action: 'like' | 'hug' | 'flower') {
           class="text-4xl bg-pink-400 hover:bg-pink-300 active:bg-pink-300 flex flex-col items-center"
           @click="handleAction('like')"
       >
-        喜欢💖
+        {{ t('comment.like') }}
         <span class="mt-1">{{ likeCount }}</span>
       </UButton>
       <UButton
           class="bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-300 text-4xl flex flex-col items-center"
           @click="handleAction('hug')"
       >
-        拥抱 🤗
+        {{ t('comment.hug') }}
         <span class="mt-1">{{ hugCount }}</span>
       </UButton>
       <UButton
           class="bg-red-400 hover:bg-red-300 active:bg-red-300 text-4xl flex flex-col items-center"
           @click="handleAction('flower')"
       >
-        送花 🌹
+        {{ t('comment.flower') }}
         <span class="mt-1">{{ flowerCount }}</span>
       </UButton>
     </div>

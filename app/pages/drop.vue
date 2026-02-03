@@ -2,6 +2,7 @@
 import { Motion } from "@oku-ui/motion";
 import { useBackHome } from "~/composables/useBackHome";
 import OptionsList from "~/components/OptionsList.vue";
+import { usePhrase } from "~/composables/usePhrase";
 
 const animate = ref({ y: [-500, -200], x: [-20]})
 const transition = ref({ duration: 3, repeat: 1, repeatType: 'mirror', ease: 'backIn' })
@@ -11,8 +12,20 @@ const displayEnd = ref(false)
 
 const router = useRouter()
 const route = useRoute()
+const { t } = useI18n()
+const toPhrase = usePhrase()
 const { refresh_timer } = useBackHome(router, 60000)
 const phrase = ref(route.query.phrase)
+const viewOthersLabel = computed(() => t('drop.options.viewOthers'))
+const leaveLabel = computed(() => t('drop.options.leave'))
+const leaveOptions = computed(() => [viewOthersLabel.value, leaveLabel.value])
+const displayPhrase = computed(() => {
+  const rawPhrase = typeof phrase.value === "string" ? phrase.value : "";
+  if (rawPhrase.length > 0 && !/^[0-9a-fA-F]{2}$/.test(rawPhrase)) return rawPhrase;
+  const id = rawPhrase.length > 0 ? rawPhrase : route.query.id;
+  if (typeof id !== "string" || id.length < 2) return "";
+  return toPhrase(id);
+});
 onMounted(() => {
   setTimeout(() => {
     frontWaveAnimate.value = { y: [100, 25, 100], x: [-40, 0, 40]}
@@ -24,7 +37,7 @@ onMounted(() => {
 })
 const handleLeaveSelection = async (selection: string)=>{
   refresh_timer()
-  if (selection === "离开"){
+  if (selection === leaveLabel.value){
     await router.push("/")
     return
   }
@@ -47,10 +60,10 @@ const handleLeaveSelection = async (selection: string)=>{
       <UCard
           class="mb-3"
       >
-        <p class="text-4xl text-gray-900">记住你的瓶子id: </p>
-        <p class="w-full text-center text-8xl  text-gray-900"><strong>{{phrase}}</strong></p>
+        <p class="text-4xl text-gray-900">{{ t('drop.rememberId') }}</p>
+        <p class="w-full text-center text-8xl  text-gray-900"><strong>{{ displayPhrase }}</strong></p>
       </UCard>
-      <OptionsList :options="[ '看看别人的', '离开' ]" @select="handleLeaveSelection" />
+      <OptionsList :options="leaveOptions" @select="handleLeaveSelection" />
     </div>
     <div class="flex justify-center w-screen h-screen">
       <Motion
