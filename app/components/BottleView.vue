@@ -35,7 +35,7 @@ defineExpose<{
 </script>
 
 <template>
-  <UCard :class="!preview ? 'max-w-[700px]' : ''">
+  <UCard class="max-w-[700px]">
     <h1 v-if="!preview" class="text-gray-900 text-5xl mb-6" ><strong>{{ props.phrase }}</strong></h1>
     <img
         v-if="props.imgUrl"
