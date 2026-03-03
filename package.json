@@ -10,7 +10,6 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@motionone/vue": "^10.16.4",
     "@nuxt/content": "^3.8.2",
     "@nuxt/eslint": "^1.11.0",
     "@nuxt/fonts": "^0.12.1",
