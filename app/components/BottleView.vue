@@ -35,13 +35,13 @@ defineExpose<{
 </script>
 
 <template>
-  <UCard class="max-w-[700px]">
+  <UCard class="max-w-175">
     <h1 v-if="!preview" class="text-gray-900 text-5xl mb-6" ><strong>{{ props.phrase }}</strong></h1>
     <img
         v-if="props.imgUrl"
         alt="N/A"
         :src="props.imgUrl"
-        :class="!preview ? 'w-[700px] h-[700px] ' : ''" class="mb-6 rounded-lg"
+        :class="!preview ? 'w-175 h-175 ' : ''" class="mb-6 rounded-lg"
     >
     <UBadge class="text-xl" color="neutral" variant="outline" >
       {{ props.emotion }}

@@ -65,7 +65,13 @@ onMounted( async ()=>{
   flowers.value = bottle.flowers
   likes.value = bottle.likes
   hugs.value = bottle.hugs
+  done()
 })
+
+const done = () => {
+  const el = document.getElementById('render-complete')
+  if (el) el.setAttribute('data-ready', 'true')
+}
 
 const handleAction = async (action: string) => {
   refresh_timer()
@@ -77,6 +83,7 @@ const handleAction = async (action: string) => {
   <div class="w-full h-screen flex flex-col justify-center items-center">
     <BottleView
         v-if="id"
+        id="bottle"
         :phrase="phrase"
         :preview="false"
         :feeling="feeling"
@@ -97,6 +104,7 @@ const handleAction = async (action: string) => {
       <p class="text-3xl text-amber-50">{{ t('view.empty') }}</p>
       <UButton color="info" class="text-2xl" @click="router.push('/')">{{ t('view.throwOne') }}</UButton>
     </div>
+    <span id="render-complete" style="display:none"></span>
   </div>
 
 </template>

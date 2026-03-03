@@ -5,12 +5,12 @@ import { useRouter } from "#vue-router";
 import { useLLM, Message } from '~/composables/useLLM'
 import { useBackHome } from "~/composables/useBackHome";
 import { useT2I } from "~/composables/useT2I";
-import {useGenderImage} from "~/composables/useGenderImage";
+import { useGenderImage } from "~/composables/useGenderImage";
 import OptionsList from "~/components/OptionsList.vue";
-import type {Prediction} from "~/composables/prediction";
-import type {StepperItem} from "@nuxt/ui/components/Stepper.vue";
+import type { Prediction } from "~/composables/prediction";
+import type { StepperItem } from "@nuxt/ui/components/Stepper.vue";
 
-const { t, tm, rt } = useI18n()
+const { t, tm, rt, locale } = useI18n()
 const items = computed<StepperItem[]>(() => [
   {
     title: t('detect.steps.face'),
@@ -43,10 +43,12 @@ const stepper = useTemplateRef('stepper')
 const text = ref<string>("")
 const isActive = ref(true);
 const repeat = ref(Infinity)
-const feelingOptions = computed(() => {
-  const list = tm("detect.feelingOptions");
-  return Array.isArray(list) ? list.map((item) => rt(item)) : [];
-})
+const feelingOptions = computed<string[]>(() => {
+  const list = tm("detect.feelingOptions") as unknown[];
+  return Array.isArray(list)
+      ? list.map((item) => rt(item as any))
+      : [];
+});
 const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
@@ -66,7 +68,6 @@ const img_url = ref<null|string>(null)
 const gender = ref(0);
 const emotion = ref("")
 const feeling = ref("")
-const phrase = ref("")
 const router = useRouter();
 
 const detect = async ()=>{
@@ -182,7 +183,6 @@ const handleThrowSelection = async (selection: string)=>{
   const get_vocabulary = await fetch("http://localhost:5001/random_vocabulary")
   const vocabulary = await get_vocabulary.json()
   console.log(vocabulary)
-  phrase.value = vocabulary.vocabulary[0] + vocabulary.vocabulary[1]
   const response = await fetch("http://localhost:5001/throw", {
     method: 'POST',
     headers: {
@@ -193,12 +193,13 @@ const handleThrowSelection = async (selection: string)=>{
       feeling: feeling.value,
       passage: text.value,
       img_url: img_url.value,
-      id: vocabulary.id
+      id: vocabulary.id,
+      lang: locale.value,
     })
   })
   await response.text()
   displayThrow.value = false
-  await router.push(`/drop?phrase=${phrase.value}`)
+  await router.push(`/drop?phrase=${vocabulary.id}`)
 }
 
 const { refresh_timer } = useBackHome(router, 60000);
@@ -226,11 +227,11 @@ onUnmounted(() => {
       {{ t('detect.exit') }}
     </UButton>
     <p ref="tipText" class="fixed w-full text-center text-5xl text-gray-50">{{ t('detect.tip.lookAtMe') }}</p>
-    <div class="w-full h-[1087px] center flex flex-col items-center justify-center">
+    <div class="w-full h-271.75 center flex flex-col items-center justify-center">
       <MotionPresence>
         <Motion
         v-show="isActive"
-        class="rounded-full origin-center w-[200px] h-[200px] bg-blue-500"
+        class="rounded-full origin-center w-50 h-50 bg-blue-500"
         :animate="{
           scale: [1, 1.5, 1],
           boxShadow: ['none', '0 0 15px 15px #78c9ff inset', 'none']
