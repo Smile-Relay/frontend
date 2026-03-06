@@ -78,7 +78,7 @@
       "\ud83c\udfeb Pass the exam!"
     ],
     "tip": {
-      "areYouThere": "",
+      "areYouThere": "Look at me for a few seconds",
       "great": "Great, awesome.",
       "thinking": "Okay, let me think \ud83e\udd14",
       "thisIsYourFeeling": "I think this is how you feel right now",
@@ -99,7 +99,7 @@
     },
     "exit": "Exit",
     "llmPrompt": "The user's current facial expression probabilities predicted by the model are {prediction}. The user thinks their current state is {selection}. Generate a 20-30 word sentence with no personal pronouns to carry their emotion. Don't be too literary; use the simplest language to describe their psychological state. Only output that sentence, no extra text or symbols.",
-    "t2iPrompt": "Adjust the person's expression, actions, and background to match the following description: {text}, combined with the thought: {feeling}"
+    "t2iPrompt": "Adjust the person's expression, actions, and background to match the following description: {text}, combined with the thought: {feeling}, the text requires rich limb movements and body postures, and a background that matches the context of the keyword. For example, if a user selects the keyword \"want a vacation,\" the background should be a person sitting in an airplane."
   },
   "comment": {
     "like": "Like \ud83d\udc96",
