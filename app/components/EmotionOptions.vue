@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Prediction } from "~/composables/prediction";
-import {defineEmits, defineProps} from "vue";
+import {defineEmits, defineProps, computed} from "vue";
 
 const props = defineProps<{
   prediction: Prediction
@@ -18,26 +18,24 @@ function handleClick(key: string) {
 function getEmotionLabel(key: string) {
   return t(`emotions.${key}`)
 }
+
+const maxProb = computed(() => {
+  const probs = Object.entries(props.prediction)
+    .filter(([key]) => key !== 'Gender')
+    .map(([, value]) => Number(value));
+  return Math.max(...probs, 0.001);
+})
 </script>
 
 <template>
-  <div class="mt-3 flex flex-col gap-3">
+  <div class="flex items-end justify-center gap-6 h-[350px] w-full mt-8">
     <template v-for="(value, key) in props.prediction" :key="key">
-
-      <UButton
-          v-if="key !== 'Gender'"
-          variant="outline"
-          color="neutral"
-          class="flex flex-col items-start gap-2 p-4 w-full text-2xl"
-          @click="handleClick(getEmotionLabel(key))"
-      >
-        <div class="flex justify-between w-full">
-          <span>{{ getEmotionLabel(key) }}</span>
-          <span class="text-sm opacity-70">{{ (Number(value) * 100).toFixed(0) }}%</span>
-        </div>
-        <UProgress :model-value="Number(value)" :max="1" color="primary" />
-      </UButton>
-
+      <div v-if="key !== 'Gender'" 
+           class="flex flex-col items-center justify-end w-20 rounded-2xl bg-gradient-to-t from-[#EADCF8] to-[#F5EEFB] border-[3px] border-white shadow-[0_4px_15px_rgba(200,180,240,0.5),inset_0_0_10px_rgba(255,255,255,1)] cursor-pointer transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-[0_8px_20px_rgba(180,150,220,0.6),inset_0_0_10px_rgba(255,255,255,1)] relative group"
+           :style="{ height: `${Math.max((Number(value) / maxProb) * 300, 80)}px` }"
+           @click="handleClick(getEmotionLabel(key))">
+        <span class="absolute top-4 w-full text-center text-[#4B6B8A] font-medium text-xl">{{ getEmotionLabel(key) }}</span>
+      </div>
     </template>
   </div>
 </template>
