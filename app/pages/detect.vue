@@ -256,10 +256,10 @@ onUnmounted(() => {
     </div>
 
     <!-- Main Content -->
-    <div class="flex-grow h-full relative p-4 pl-0">
+    <div class="grow h-full relative p-4 pl-0">
       <div class="w-full h-full bg-white rounded-3xl overflow-hidden flex flex-col items-center justify-center relative shadow-2xl">
         <!-- Wavy Bottom -->
-        <div class="absolute bottom-0 left-0 w-full h-[180px] pointer-events-none z-0 overflow-hidden">
+        <div class="absolute bottom-0 left-0 w-full h-45 pointer-events-none z-0 overflow-hidden">
           <Motion
             class="absolute bottom-0 left-0 w-[200%] h-full flex"
             :animate="{ x: ['0%', '-50%'] }"
@@ -295,7 +295,7 @@ onUnmounted(() => {
               class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
               :exit="{ opacity: 0, scale: 0 }"
             >
-               <Motion class="w-80 h-80 bg-gradient-to-tr from-[#E6C9FB] to-[#F1E5FD] rounded-full blur-[2px] opacity-90 shadow-[inset_0_0_20px_rgba(255,255,255,1)]"
+               <Motion class="w-80 h-80 bg-linear-to-tr from-[#E6C9FB] to-[#F1E5FD] rounded-full blur-[2px] opacity-90 shadow-[inset_0_0_20px_rgba(255,255,255,1)]"
                  :animate="{ scale: [1, 1.2, 1], boxShadow: ['none', '0 0 80px 60px rgba(230,200,255,0.6)', 'none'] }"
                  :transition="{ duration: 2, ease: 'easeInOut', repeat: repeat, repeatDelay: 1 }" />
             </Motion>
@@ -351,19 +351,19 @@ onUnmounted(() => {
                 :animate="{ opacity: 1 }" :initial="{ opacity: 0 }" :exit="{ opacity: 0 }"
              >
                 <!-- Not Throw Button (Left) -->
-                <button class="px-8 sm:px-10 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-gradient-to-r from-[#F5F0FA] to-[#FAF5FC] border-2 border-white z-10 whitespace-nowrap" @click="handleThrowSelection(t('detect.throw.options.notThrow'))">
+                <button class="px-8 sm:px-10 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#F5F0FA] to-[#FAF5FC] border-2 border-white z-10 whitespace-nowrap" @click="handleThrowSelection(t('detect.throw.options.notThrow'))">
                    {{ t('detect.throw.options.notThrow') }}
                 </button>
 
                 <!-- Bottle View Container -->
-                <div class="flex-shrink-0 relative flex items-center justify-center">
+                <div class="shrink-0 relative flex items-center justify-center">
                   <div class="scale-[0.65] sm:scale-[0.8] origin-center bg-white p-2 rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.05)] pointer-events-none">
                     <BottleView :phrase="null" :preview="true" :img-url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
                   </div>
                 </div>
                 
                 <!-- Throw Button (Right) -->
-                <button class="px-8 sm:px-10 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-gradient-to-r from-[#EADCF8] to-[#F5EEFB] border-2 border-white z-10 whitespace-nowrap" @click="handleThrowSelection(t('detect.throw.options.throw'))">
+                <button class="px-8 sm:px-10 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#EADCF8] to-[#F5EEFB] border-2 border-white z-10 whitespace-nowrap" @click="handleThrowSelection(t('detect.throw.options.throw'))">
                    {{ t('detect.throw.options.throw') }}
                 </button>
              </Motion>
@@ -378,15 +378,15 @@ onUnmounted(() => {
              >
                 <p class="text-4xl text-[#2A4365] mb-12 font-medium">瓶子ID:</p>
                 <div class="bg-[#F8F4FD] rounded-2xl px-16 py-8 shadow-[inset_0_0_20px_rgba(230,200,255,0.6)] mb-16 relative w-3/4 max-w-lg border border-white">
-                   <div class="absolute left-[-10px] top-1/2 transform -translate-y-1/2 w-4 h-3/4 bg-[#D2B4F5] rounded-l-lg shadow-[inset_2px_0_5px_rgba(0,0,0,0.1)]"></div>
+                   <div class="absolute -left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-3/4 bg-[#D2B4F5] rounded-l-lg shadow-[inset_2px_0_5px_rgba(0,0,0,0.1)]"></div>
                    <div class="text-center text-4xl text-[#2A4365] tracking-[0.2em] font-medium">{{ bottlePhrase }}</div>
                 </div>
                 
                 <div class="flex gap-16 mt-8 z-10">
-                   <button class="px-12 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-gradient-to-r from-[#F5F0FA] to-[#FAF5FC] border-2 border-white" @click="router.push('/view')">
+                   <button class="px-12 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#F5F0FA] to-[#FAF5FC] border-2 border-white" @click="router.push('/explore')">
                       看看别人的
                    </button>
-                   <button class="px-12 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-gradient-to-r from-[#EADCF8] to-[#F5EEFB] border-2 border-white" @click="router.push('/')">
+                   <button class="px-12 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#EADCF8] to-[#F5EEFB] border-2 border-white" @click="router.push('/')">
                       离开
                    </button>
                 </div>

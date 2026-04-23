@@ -35,24 +35,26 @@ defineExpose<{
 </script>
 
 <template>
-  <UCard class="max-w-175">
+  <div class="w-[450px] bg-[#E1EDF8] rounded-xl flex flex-col items-center justify-center p-4">
     <h1 v-if="!preview" class="text-gray-900 text-5xl mb-6" ><strong>{{ props.phrase }}</strong></h1>
     <img
         v-if="props.imgUrl"
         alt="N/A"
         :src="props.imgUrl"
-        :class="!preview ? 'w-175 h-175 ' : ''" class="mb-6 rounded-lg"
+        :class="!preview ? 'w-[400px] h-[400px]' : 'w-[400px] h-[400px]'" class="mb-6 rounded-xl object-cover border border-[#C5D7E8]"
     >
-    <UBadge class="text-xl" color="neutral" variant="outline" >
-      {{ props.emotion }}
-    </UBadge>
-    <UBadge class="ml-3 text-xl" color="neutral" variant="outline" >
-      {{ props.feeling }}
-    </UBadge>
-    <p class="mt-6 text-2xl leading-relaxed text-gray-700">
+    <div class="w-full flex items-center justify-start gap-4 px-2">
+      <div class="flex items-center justify-center px-4 py-2 bg-gradient-to-r from-[#F0E6FA] to-[#F5EEFB] border border-white rounded-lg shadow-sm text-xl text-[#2A4365]">
+        {{ props.emotion }}
+      </div>
+      <div class="flex items-center justify-center px-4 py-2 bg-gradient-to-r from-[#EADCF8] to-[#F2EBF9] border border-white rounded-lg shadow-sm text-xl text-[#2A4365]">
+        {{ props.feeling }}
+      </div>
+    </div>
+    <p class="mt-4 text-xl leading-relaxed text-gray-700 px-2 pb-4 text-left w-full break-words whitespace-pre-wrap">
       {{ props.passage }}
     </p>
-  </UCard>
+  </div>
 </template>
 
 <style scoped>

@@ -46,34 +46,43 @@ function handleAction(action: 'like' | 'hug' | 'flower') {
   }
   emit('action', action, newCount)
 }
+
+function formatLabel(label: string, count: number) {
+  const chars = Array.from(label.trim())
+  const lastChar = chars[chars.length - 1]
+  
+  // simple check: if the last character is an emoji (not ascii printable, not chinese, not space)
+  if (lastChar == null) return null;
+  if (/[^\x20-\x7E\u4e00-\u9fa5\s]/.test(lastChar)) {
+    const textPart = chars.slice(0, -1).join('').trim()
+    return `${textPart}X${count}${lastChar}`
+  }
+  
+  return `${label.trim()}X${count}`
+}
 </script>
 
 <template>
-  <UCard class="w-[700px]">
-    <div class="flex justify-between">
-      <UButton
-          class="text-4xl bg-pink-400 hover:bg-pink-300 active:bg-pink-300 flex flex-col items-center"
-          @click="handleAction('like')"
-      >
-        {{ t('comment.like') }}
-        <span class="mt-1">{{ likeCount }}</span>
-      </UButton>
-      <UButton
-          class="bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-300 text-4xl flex flex-col items-center"
-          @click="handleAction('hug')"
-      >
-        {{ t('comment.hug') }}
-        <span class="mt-1">{{ hugCount }}</span>
-      </UButton>
-      <UButton
-          class="bg-red-400 hover:bg-red-300 active:bg-red-300 text-4xl flex flex-col items-center"
-          @click="handleAction('flower')"
-      >
-        {{ t('comment.flower') }}
-        <span class="mt-1">{{ flowerCount }}</span>
-      </UButton>
-    </div>
-  </UCard>
+  <div class="flex justify-center gap-6">
+    <button
+        class="px-8 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-2xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#F5F0FA] to-[#FAF5FC] border-[3px] border-white flex items-center justify-center tracking-widest whitespace-nowrap"
+        @click="handleAction('flower')"
+    >
+      {{ formatLabel(t('comment.flower'), flowerCount) }}
+    </button>
+    <button
+        class="px-8 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-2xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#F5F0FA] to-[#FAF5FC] border-[3px] border-white flex items-center justify-center tracking-widest whitespace-nowrap"
+        @click="handleAction('hug')"
+    >
+      {{ formatLabel(t('comment.hug'), hugCount) }}
+    </button>
+    <button
+        class="px-8 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-2xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#F5F0FA] to-[#FAF5FC] border-[3px] border-white flex items-center justify-center tracking-widest whitespace-nowrap"
+        @click="handleAction('like')"
+    >
+      {{ formatLabel(t('comment.like'), likeCount) }}
+    </button>
+  </div>
 </template>
 
 <style scoped>
