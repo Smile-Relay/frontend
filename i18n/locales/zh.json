@@ -1,7 +1,7 @@
 {
   "index": {
     "title": "情绪漂流瓶",
-    "start": "点击以开始",
+    "start": "点击任意部分开始",
     "search": "\ud83e\uded9找瓶子"
   },
   "drop": {
@@ -63,10 +63,11 @@
     "steps": {
       "face": "表情识别",
       "chooseEmotion": "选择情绪",
-      "generateFeeling": "生成感受",
-      "chooseThought": "选择想法",
-      "imageGen": "图片生成",
-      "throwBottle": "扔出瓶子"
+      "lifeState": "生活状态",
+      "imageGen": "照片生成",
+      "phraseGen": "口令生成",
+      "throwBottle": "扔出瓶子",
+      "viewOthers": "看看别人的"
     },
     "feelingOptions": [
       "想放假\u2708\ufe0f",

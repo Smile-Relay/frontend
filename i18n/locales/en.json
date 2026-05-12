@@ -1,7 +1,7 @@
 {
   "index": {
     "title": "Emotion-Drift Bottle",
-    "start": "Click to start",
+    "start": "Click anywhere to start",
     "search": "\uD83E\uDED9Find a bottle"
   },
   "drop": {
@@ -61,12 +61,13 @@
   },
   "detect": {
     "steps": {
-      "face": "Expression detection",
-      "chooseEmotion": "Choose emotion",
-      "generateFeeling": "Generate feeling",
-      "chooseThought": "Choose thought",
-      "imageGen": "Image generation",
-      "throwBottle": "Throw the bottle"
+      "face": "Expression Detection",
+      "chooseEmotion": "Choose Emotion",
+      "lifeState": "Life State",
+      "imageGen": "Photo Generation",
+      "phraseGen": "Phrase Generation",
+      "throwBottle": "Throw Bottle",
+      "viewOthers": "View Others"
     },
     "feelingOptions": [
       "Want a vacation \u2708\ufe0f",

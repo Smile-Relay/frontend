@@ -238,20 +238,20 @@ onUnmounted(() => {
     <UStepper ref="stepper" class="hidden" size="xl" color="info" :items="items" />
     
     <!-- Sidebar -->
-    <div class="w-[20%] flex flex-col pt-12 items-center relative z-10 shrink-0">
-      <h1 class="text-3xl text-[#4B6B8A] mb-12 tracking-widest font-medium">情绪漂流瓶</h1>
+    <div class="w-[22%] lg:w-[20%] flex flex-col pt-12 items-center relative z-10 shrink-0">
+      <h1 class="text-2xl lg:text-3xl text-[#4B6B8A] mb-12 tracking-widest font-medium">{{ t('index.title') }}</h1>
       <div class="flex flex-col w-full relative">
         <!-- active indicator background -->
-        <div class="absolute left-0 w-[90%] h-12 bg-white rounded-r-full shadow-[0_0_15px_rgba(255,255,255,1)] transition-all duration-500 ease-in-out z-0"
-             :style="{ top: `${stepIndex * 4 + 0.5}rem` }">
+        <div class="absolute left-0 w-[92%] h-14 bg-white rounded-r-full shadow-[0_0_15px_rgba(255,255,255,1)] transition-all duration-500 ease-in-out z-0"
+             :style="{ top: `${stepIndex * 4 + 0.25}rem` }">
         </div>
         
-        <div class="h-16 flex items-center pl-[25%] text-lg transition-all duration-300 relative z-10" :class="stepIndex === 0 ? 'text-[#2A4365] font-bold text-xl' : 'text-[#4B6B8A] opacity-80'">表情识别</div>
-        <div class="h-16 flex items-center pl-[25%] text-lg transition-all duration-300 relative z-10" :class="stepIndex === 1 ? 'text-[#2A4365] font-bold text-xl' : 'text-[#4B6B8A] opacity-80'">选择情绪</div>
-        <div class="h-16 flex items-center pl-[25%] text-lg transition-all duration-300 relative z-10" :class="stepIndex === 2 ? 'text-[#2A4365] font-bold text-xl' : 'text-[#4B6B8A] opacity-80'">生活状态</div>
-        <div class="h-16 flex items-center pl-[25%] text-lg transition-all duration-300 relative z-10" :class="stepIndex === 3 ? 'text-[#2A4365] font-bold text-xl' : 'text-[#4B6B8A] opacity-80'">照片生成</div>
-        <div class="h-16 flex items-center pl-[25%] text-lg transition-all duration-300 relative z-10" :class="stepIndex === 4 ? 'text-[#2A4365] font-bold text-xl' : 'text-[#4B6B8A] opacity-80'">口令生成</div>
-        <div class="h-16 flex items-center pl-[25%] text-lg transition-all duration-300 relative z-10" :class="stepIndex === 5 ? 'text-[#2A4365] font-bold text-xl' : 'text-[#4B6B8A] opacity-80'">扔出瓶子</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 0 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.face') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 1 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.chooseEmotion') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 2 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.lifeState') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 3 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.imageGen') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 4 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.phraseGen') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 5 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.throwBottle') }}</div>
       </div>
     </div>
 
@@ -259,21 +259,23 @@ onUnmounted(() => {
     <div class="grow h-full relative p-4 pl-0">
       <div class="w-full h-full bg-white rounded-3xl overflow-hidden flex flex-col items-center justify-center relative shadow-2xl">
         <!-- Wavy Bottom -->
-        <div class="absolute bottom-0 left-0 w-full h-45 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute bottom-0 left-0 w-full h-[180px] pointer-events-none z-0 overflow-hidden">
           <Motion
             class="absolute bottom-0 left-0 w-[200%] h-full flex"
             :animate="{ x: ['0%', '-50%'] }"
             :transition="{ duration: 20, repeat: Infinity, ease: 'linear' }"
           >
-            <svg viewBox="0 0 1440 320" class="w-full h-full" preserveAspectRatio="none">
-              <!-- Two identical wave segments for seamless looping -->
-              <path fill="url(#bg-gradient)" d="M0,160 C320,300 420,100 720,160 C1020,220 1120,40 1440,160 C1760,280 1860,80 2160,140 C2460,200 2560,20 2880,140 V320 H0 Z" />
+            <svg viewBox="0 0 1440 320" class="w-1/2 h-full" preserveAspectRatio="none">
+              <path fill="url(#bg-gradient)" d="M0,160 C320,300 420,100 720,160 C1020,220 1120,40 1440,160 V320 H0 Z" />
               <defs>
                 <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stop-color="#E8D1F8" />
                   <stop offset="100%" stop-color="#D6BFF2" />
                 </linearGradient>
               </defs>
+            </svg>
+            <svg viewBox="0 0 1440 320" class="w-1/2 h-full" preserveAspectRatio="none">
+              <path fill="url(#bg-gradient)" d="M0,160 C320,300 420,100 720,160 C1020,220 1120,40 1440,160 V320 H0 Z" />
             </svg>
           </Motion>
         </div>
@@ -383,11 +385,11 @@ onUnmounted(() => {
                 </div>
                 
                 <div class="flex gap-16 mt-8 z-10">
-                   <button class="px-12 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#F5F0FA] to-[#FAF5FC] border-2 border-white" @click="router.push('/explore')">
-                      看看别人的
+                   <button class="px-12 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#F5F0FA] to-[#FAF5FC] border-[3px] border-white" @click="router.push('/explore')">
+                      {{ t('drop.options.viewOthers') }}
                    </button>
-                   <button class="px-12 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#EADCF8] to-[#F5EEFB] border-2 border-white" @click="router.push('/')">
-                      离开
+                   <button class="px-12 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#EADCF8] to-[#F5EEFB] border-[3px] border-white" @click="router.push('/')">
+                      {{ t('drop.options.leave') }}
                    </button>
                 </div>
              </Motion>

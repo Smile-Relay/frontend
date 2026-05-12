@@ -57,14 +57,17 @@ const handleAction = async (action: string) => {
         <!-- Wavy Bottom -->
         <div class="absolute bottom-0 left-0 w-full h-45 pointer-events-none z-0 overflow-hidden">
           <div class="absolute bottom-0 left-0 w-[200%] h-full flex animate-wave">
-            <svg viewBox="0 0 1440 320" class="w-full h-full" preserveAspectRatio="none">
-              <path fill="url(#bg-gradient)" d="M0,160 C320,300 420,100 720,160 C1020,220 1120,40 1440,160 C1760,280 1860,80 2160,140 C2460,200 2560,20 2880,140 V320 H0 Z" />
+            <svg viewBox="0 0 1440 320" class="w-1/2 h-full" preserveAspectRatio="none">
+              <path fill="url(#bg-gradient)" d="M0,160 C320,300 420,100 720,160 C1020,220 1120,40 1440,160 V320 H0 Z" />
               <defs>
                 <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stop-color="#E8D1F8" />
                   <stop offset="100%" stop-color="#D6BFF2" />
                 </linearGradient>
               </defs>
+            </svg>
+            <svg viewBox="0 0 1440 320" class="w-1/2 h-full" preserveAspectRatio="none">
+              <path fill="url(#bg-gradient)" d="M0,160 C320,300 420,100 720,160 C1020,220 1120,40 1440,160 V320 H0 Z" />
             </svg>
           </div>
         </div>
