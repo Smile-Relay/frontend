@@ -98,10 +98,15 @@ const goNext = async () => {
     </div>
 
     <!-- Center Content -->
-    <div class="flex flex-col items-center gap-12 z-30">
+    <div class="flex flex-col items-center gap-8 z-30 mb-12">
       
+      <!-- Title -->
+      <h1 class="text-white text-6xl md:text-7xl font-bold tracking-[0.15em] drop-shadow-lg text-center mb-8">
+        {{ t('index.title') }}
+      </h1>
+
       <!-- Text Prompt instead of Start Button -->
-      <p class="text-white text-4xl font-medium tracking-[0.2em] drop-shadow-md animate-pulse">
+      <p class="text-white text-3xl md:text-4xl font-medium tracking-[0.2em] drop-shadow-md animate-pulse mb-8">
         {{ t('index.start') }}
       </p>
 
