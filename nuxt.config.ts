@@ -5,7 +5,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     siliconflowApiKey: process.env.SILICONFLOW_API_KEY,
-    dashscopeApiKey: process.env.DASHSCOPE_API_KEY
+    dashscopeApiKey: process.env.DASHSCOPE_API_KEY,
+    siliconflowBaseUrl: process.env.SILICONFLOW_BASE_URL || 'https://api.siliconflow.cn/v1',
+    dashscopeBaseUrl: process.env.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/api/v1'
   },
   ui: {
     colorMode: false
