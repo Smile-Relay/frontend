@@ -1,21 +1,17 @@
 export class T2I {
     url: URL;
-    api_key: string;
     model: string;
 
-    constructor(url: URL, api_key: string, model: string) {
+    constructor(url: URL, model: string) {
         this.url = url;
-        console.log(url);
-        this.api_key = api_key;
         this.model = model;
     }
 
     async generate(prompt: string, image_url: string) {
-        const generate_request = await (await fetch(`${this.url}/services/aigc/multimodal-generation/generation`, {
+        const generate_request = await (await fetch(this.url.toString(), {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.api_key}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 model: this.model,
@@ -47,5 +43,5 @@ export class T2I {
     }
 }
 export const useT2I = () => {
-    return new T2I(new URL("/dashscope/api/v1", window.location.href), "API_KEY_REMOVED", "wan2.6-image");
+    return new T2I(new URL("/api/t2i", window.location.href), "wan2.6-image");
 }

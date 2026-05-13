@@ -3,6 +3,10 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  runtimeConfig: {
+    siliconflowApiKey: process.env.SILICONFLOW_API_KEY,
+    dashscopeApiKey: process.env.DASHSCOPE_API_KEY
+  },
   ui: {
     colorMode: false
   },

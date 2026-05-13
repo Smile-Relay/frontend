@@ -8,19 +8,16 @@ export class Message {
 }
 export class LLM {
     url: URL;
-    api_key: string;
     model: string;
-    constructor(url: URL, api_key: string, model: string) {
+    constructor(url: URL, model: string) {
         this.url = url;
-        this.api_key = api_key;
         this.model = model;
     }
     async completions(messages: Message[], stream: boolean = false){
-        return await fetch(`${this.url}/chat/completions`, {
+        return await fetch(this.url.toString(), {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.api_key}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 model: this.model,
@@ -31,5 +28,5 @@ export class LLM {
     }
 }
 export const useLLM = () => {
-    return new LLM(<URL>URL.parse("https://api.siliconflow.cn/v1"), "API_KEY_REMOVED", "deepseek-ai/DeepSeek-V3");
+    return new LLM(new URL("/api/llm", window.location.href), "deepseek-ai/DeepSeek-V3");
 }
