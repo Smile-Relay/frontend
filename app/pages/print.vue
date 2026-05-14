@@ -42,13 +42,13 @@ const done = () => {
 
 <template>
   <div class="w-full min-h-screen bg-white flex items-center justify-center p-8 font-sans">
-    <UCard id="bottle" class="max-w-[700px] w-full shadow-none border-0 ring-0">
+    <UCard id="bottle" class="max-w-175 w-full">
       <h1 class="text-gray-900 text-5xl mb-6"><strong>{{ phrase }}</strong></h1>
       <img
           v-if="img_url"
           alt="N/A"
           :src="img_url"
-          class="w-[700px] h-[700px] mb-6 rounded-lg object-cover"
+          class="w-175 h-175 mb-6 rounded-lg object-cover"
       >
       <UBadge class="text-xl" color="neutral" variant="outline">
         {{ emotion }}
