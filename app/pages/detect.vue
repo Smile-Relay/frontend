@@ -225,7 +225,7 @@ const handleThrowSelection = async (selection: string)=>{
   const pollPrintStatus = async () => {
     refresh_timer()
     try {
-      const res = await fetch("http://localhost:5001/print_status")
+      const res = await fetch(`http://localhost:5001/print_status?id=${bottleId.value}`)
       const status = await res.json()
       if (status.status === "done") {
          displayPrinting.value = false
