@@ -67,6 +67,8 @@
       "imageGen": "照片生成",
       "phraseGen": "口令生成",
       "throwBottle": "扔出瓶子",
+      "print": "打印中",
+      "printTip": "稍等片刻，漂流瓶即将送达",
       "viewOthers": "看看别人的"
     },
     "feelingOptions": [

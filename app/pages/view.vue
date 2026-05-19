@@ -92,8 +92,8 @@ const handleAction = async (action: string) => {
 
             <div class="flex flex-row items-center justify-center w-full">
               <!-- Bottle Card Container -->
-              <div class="relative w-75 h-112.5 flex items-center justify-center shrink-0">
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 scale-[0.6] sm:scale-[0.7] origin-center bg-white p-2 rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.05)] pointer-events-none">
+              <div class="relative w-[500px] h-[750px] flex items-center justify-center shrink-0">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 scale-[0.9] sm:scale-[1.1] origin-center bg-white p-4 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] pointer-events-none">
                   <BottleView
                       id="bottle"
                       :phrase="null"

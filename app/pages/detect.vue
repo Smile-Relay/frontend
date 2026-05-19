@@ -48,6 +48,7 @@ const displayOptions = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
 const displayThrow = ref(false)
+const displayPrinting = ref(false)
 const displayResult = ref(false)
 const bottleId = ref("")
 const bottlePhrase = ref("")
@@ -217,8 +218,28 @@ const handleThrowSelection = async (selection: string)=>{
   })
   await response.text()
   displayThrow.value = false
-  stepIndex.value = 4
-  displayResult.value = true
+  displayPrinting.value = true
+  stepIndex.value = 6 // Printing step
+
+  // Poll for print status
+  const pollPrintStatus = async () => {
+    try {
+      const res = await fetch("http://localhost:5001/print_status")
+      const status = await res.json()
+      if (status.status === "done") {
+         displayPrinting.value = false
+         stepIndex.value = 7 // Move past print step (or keep at 6 if we want to show it's done)
+         displayResult.value = true
+      } else {
+         setTimeout(pollPrintStatus, 1000)
+      }
+    } catch (e) {
+      console.error(e)
+      setTimeout(pollPrintStatus, 1000)
+    }
+  }
+  
+  setTimeout(pollPrintStatus, 1000)
 }
 
 const { refresh_timer } = useBackHome(router, 60000);
@@ -252,6 +273,7 @@ onUnmounted(() => {
         <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 3 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.imageGen') }}</div>
         <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 4 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.phraseGen') }}</div>
         <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 5 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.throwBottle') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 6 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.print') }}</div>
       </div>
     </div>
 
@@ -368,6 +390,27 @@ onUnmounted(() => {
                 <button class="px-8 sm:px-10 py-3 rounded-full shadow-[0_4px_10px_rgba(200,180,240,0.3),inset_0_0_10px_rgba(255,255,255,1)] text-[#2A4365] text-xl font-medium hover:scale-105 hover:shadow-[0_8px_20px_rgba(180,150,220,0.5),inset_0_0_10px_rgba(255,255,255,1)] transition-all duration-300 bg-linear-to-r from-[#EADCF8] to-[#F5EEFB] border-2 border-white z-10 whitespace-nowrap" @click="handleThrowSelection(t('detect.throw.options.throw'))">
                    {{ t('detect.throw.options.throw') }}
                 </button>
+             </Motion>
+          </MotionPresence>
+
+          <!-- Step 3.5: Printing -->
+          <MotionPresence>
+             <Motion
+                v-show="displayPrinting"
+                class="absolute inset-0 flex flex-col items-center justify-center w-full gap-8"
+                :animate="{ opacity: 1 }" :initial="{ opacity: 0 }" :exit="{ opacity: 0 }"
+             >
+                <!-- Printer icon or loading animation -->
+                <div class="relative w-32 h-32 flex items-center justify-center">
+                   <div class="absolute inset-0 border-4 border-[#2A4365] border-t-transparent rounded-full animate-spin opacity-20"></div>
+                   <div class="absolute inset-2 border-4 border-[#2A4365] border-b-transparent rounded-full animate-spin-slow opacity-40"></div>
+                   <svg class="w-12 h-12 text-[#2A4365] animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                   </svg>
+                </div>
+                
+                <p class="text-3xl text-[#2A4365] font-medium tracking-widest animate-pulse">{{ t('detect.steps.print') }}...</p>
+                <p class="text-[#4B6B8A] text-lg mt-2 opacity-80">{{ t('detect.steps.printTip') }}</p>
              </Motion>
           </MotionPresence>
 

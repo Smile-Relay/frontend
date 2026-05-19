@@ -67,6 +67,8 @@
       "imageGen": "Photo Generation",
       "phraseGen": "Phrase Generation",
       "throwBottle": "Throw Bottle",
+      "print": "Printing",
+      "printTip": "Wait a moment, your bottle is coming soon",
       "viewOthers": "View Others"
     },
     "feelingOptions": [
