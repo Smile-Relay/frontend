@@ -97,6 +97,16 @@ const goNext = async () => {
       </NuxtLink>
     </div>
 
+    <!-- Search Button (Bottom Right) -->
+    <div class="absolute bottom-12 right-12 z-40" @click.stop>
+      <button 
+        class="px-10 py-4 rounded-full border-[3px] border-white/80 bg-white/20 backdrop-blur-md text-white text-2xl font-medium tracking-[0.2em] shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:bg-white/30 hover:scale-105 transition-all duration-300"
+        @click="router.push('/search')"
+      >
+        {{ t('index.search') }}
+      </button>
+    </div>
+
     <!-- Center Content -->
     <div class="flex flex-col items-center gap-8 z-30 mb-12">
       
@@ -109,13 +119,6 @@ const goNext = async () => {
       <p class="text-white text-3xl md:text-4xl font-medium tracking-[0.2em] drop-shadow-md animate-pulse mb-8">
         {{ t('index.start') }}
       </p>
-
-      <button 
-        class="w-[320px] py-5 rounded-full border-[3px] border-white/80 bg-white/10 backdrop-blur-md text-white text-3xl font-medium tracking-[0.2em] shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:bg-white/20 hover:scale-105 transition-all duration-300"
-        @click.stop="router.push('/search')"
-      >
-        {{ t('index.search') }}
-      </button>
     </div>
 
   </div>
