@@ -223,6 +223,7 @@ const handleThrowSelection = async (selection: string)=>{
 
   // Poll for print status
   const pollPrintStatus = async () => {
+    refresh_timer()
     try {
       const res = await fetch("http://localhost:5001/print_status")
       const status = await res.json()
