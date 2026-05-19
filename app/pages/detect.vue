@@ -45,6 +45,7 @@ const isActive = ref(true);
 const repeat = ref(Infinity)
 const stepIndex = ref(0)
 const displayOptions = ref(false)
+const displayThinking = ref(false)
 const displayText = ref(false)
 const displayFeelings = ref(false)
 const displayThrow = ref(false)
@@ -112,6 +113,7 @@ const handleSelection = async (selection: string) => {
   stepper.value.next()
   refresh_timer()
   tipText.value.textContent = t('detect.tip.thinking');
+  displayThinking.value = true
   gender.value = prediction.value.Gender || 0;
   delete prediction.value.Gender;
   const response = await llm.completions(
@@ -123,6 +125,7 @@ const handleSelection = async (selection: string) => {
   if (!reader) return
   if (!tipText.value)return;
   tipText.value.textContent = t('detect.tip.thisIsYourFeeling');
+  displayThinking.value = false
   
   await new Promise(resolve => setTimeout(resolve, 1500))
   displayText.value = true;
@@ -337,6 +340,22 @@ onUnmounted(() => {
                 <div class="w-full">
                   <EmotionOptions :prediction="prediction" @select="handleSelection" />
                 </div>
+             </Motion>
+          </MotionPresence>
+
+          <!-- Step 1.5: Thinking Animation -->
+          <MotionPresence>
+             <Motion
+                v-show="displayThinking"
+                class="absolute inset-0 flex flex-col items-center justify-center w-full gap-6"
+                :animate="{ opacity: 1 }" :initial="{ opacity: 0 }" :exit="{ opacity: 0 }"
+             >
+                <div class="flex gap-3">
+                   <div class="w-4 h-4 bg-[#D2B4F5] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                   <div class="w-4 h-4 bg-[#B4C6F5] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                   <div class="w-4 h-4 bg-[#F5B4E2] rounded-full animate-bounce"></div>
+                </div>
+                <p class="text-2xl text-[#4B6B8A] font-medium tracking-widest animate-pulse">AI 正在感悟你的情绪...</p>
              </Motion>
           </MotionPresence>
 
