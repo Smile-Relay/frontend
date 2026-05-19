@@ -12,30 +12,14 @@ import type { StepperItem } from "@nuxt/ui/components/Stepper.vue";
 
 const { t, tm, rt, locale } = useI18n()
 const items = computed<StepperItem[]>(() => [
-  {
-    title: t('detect.steps.face'),
-    icon: 'ic:baseline-camera-enhance'
-  },
-  {
-    title: t('detect.steps.chooseEmotion'),
-    icon: 'ic:baseline-done-all'
-  },
-  {
-    title: t('detect.steps.generateFeeling'),
-    icon: 'ic:outline-add-reaction'
-  },
-  {
-    title: t('detect.steps.chooseThought'),
-    icon: 'ic:baseline-done-all'
-  },
-  {
-    title: t('detect.steps.imageGen'),
-    icon: 'ic:baseline-image'
-  },
-  {
-    title: t('detect.steps.throwBottle'),
-    icon: 'ic:baseline-water'
-  }
+  { title: t('detect.steps.face') },
+  { title: t('detect.steps.chooseEmotion') },
+  { title: t('detect.steps.generateFeeling') },
+  { title: t('detect.steps.lifeState') },
+  { title: t('detect.steps.imageGen') },
+  { title: t('detect.steps.throwBottle') },
+  { title: t('detect.steps.print') },
+  { title: t('detect.steps.success') }
 ])
 
 const tipText = ref<null|HTMLParagraphElement>(null);
@@ -153,7 +137,7 @@ const handleSelection = async (selection: string) => {
   await new Promise(resolve => setTimeout(resolve, 3000))
   
   stepper.value.next()
-  stepIndex.value = 2;
+  stepIndex.value = 3; // Move to Life State
   displayFeelings.value = true;
 }
 
@@ -168,7 +152,7 @@ const handleFeelingSelection = async (selection: string)=>{
   feeling.value = selection
   isActive.value = true
   repeat.value = Infinity;
-  stepIndex.value = 3;
+  stepIndex.value = 4; // Move to Image Gen
   tipText.value.textContent = t('detect.tip.imageGenerating')
   try {
     img_url.value = await t2i.generate(
@@ -185,6 +169,7 @@ const handleFeelingSelection = async (selection: string)=>{
   stepper.value.next()
   isActive.value = false
   repeat.value = 0;
+  stepIndex.value = 5; // Move to Throw Bottle
   tipText.value.textContent = t('detect.tip.thisIsYourBottle')
   setTimeout(() => {
     displayThrow.value = true
@@ -273,11 +258,12 @@ onUnmounted(() => {
         
         <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 0 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.face') }}</div>
         <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 1 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.chooseEmotion') }}</div>
-        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 2 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.lifeState') }}</div>
-        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 3 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.imageGen') }}</div>
-        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 4 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.phraseGen') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 2 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.generateFeeling') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 3 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.lifeState') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 4 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.imageGen') }}</div>
         <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 5 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.throwBottle') }}</div>
         <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 6 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.print') }}</div>
+        <div class="h-16 flex items-center pl-6 lg:pl-[20%] pr-2 text-base lg:text-lg transition-all duration-300 relative z-10 leading-tight" :class="stepIndex === 7 ? 'text-[#2A4365] font-bold text-lg lg:text-xl' : 'text-[#4B6B8A] opacity-80'">{{ t('detect.steps.success') }}</div>
       </div>
     </div>
 

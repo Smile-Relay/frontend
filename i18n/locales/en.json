@@ -61,14 +61,15 @@
   },
   "detect": {
     "steps": {
-      "face": "Expression Detection",
+      "face": "Face Detect",
       "chooseEmotion": "Choose Emotion",
+      "generateFeeling": "AI Insight",
       "lifeState": "Life State",
-      "imageGen": "Photo Generation",
-      "phraseGen": "Phrase Generation",
+      "imageGen": "Image Gen",
       "throwBottle": "Throw Bottle",
       "print": "Printing",
       "printTip": "Wait a moment, your bottle is coming soon",
+      "success": "Success",
       "viewOthers": "View Others"
     },
     "feelingOptions": [

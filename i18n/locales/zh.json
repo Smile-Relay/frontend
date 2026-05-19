@@ -63,12 +63,13 @@
     "steps": {
       "face": "表情识别",
       "chooseEmotion": "选择情绪",
+      "generateFeeling": "AI感悟",
       "lifeState": "生活状态",
       "imageGen": "照片生成",
-      "phraseGen": "口令生成",
       "throwBottle": "扔出瓶子",
       "print": "打印中",
       "printTip": "稍等片刻，漂流瓶即将送达",
+      "success": "完成",
       "viewOthers": "看看别人的"
     },
     "feelingOptions": [
