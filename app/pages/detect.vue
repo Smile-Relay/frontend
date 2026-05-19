@@ -382,7 +382,7 @@ onUnmounted(() => {
 
                 <!-- Bottle View Container -->
                 <div class="shrink-0 relative flex items-center justify-center">
-                  <div class="scale-[0.65] sm:scale-[0.8] origin-center bg-white p-2 rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.05)] pointer-events-none">
+                  <div class="scale-[0.8] sm:scale-[0.95] origin-center bg-white p-4 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] pointer-events-none">
                     <BottleView :phrase="null" :preview="true" :img-url="img_url" :passage="text" :emotion="emotion" :feeling="feeling" />
                   </div>
                 </div>
